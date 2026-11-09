@@ -134,6 +134,25 @@ class LocalTasteTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             choose_references(self.home)
 
+    def test_negative_or_unrelated_references_are_not_selected(self):
+        disliked = add_reference(self.home, self.photo,
+                                 genomes=["playful-sky-editorial"],
+                                 tags=["portrait"], rating=1)
+        self.assertEqual(choose_references(
+            self.home, genome="playful-sky-editorial"), [])
+        second = self.root / "city.png"
+        Image.new("RGB", (90, 90), "green").save(second)
+        add_reference(self.home, second,
+                      genomes=["playful-sky-editorial"], tags=["street"], rating=5)
+        self.assertEqual(choose_references(self.home, tags=["portrait"]), [])
+        self.assertEqual(len(choose_references(self.home, tags=["street"])), 1)
+
+    def test_preparation_refuses_non_image_as_content(self):
+        bad = self.root / "not-a-photo.txt"
+        bad.write_text("hello", encoding="utf-8")
+        with self.assertRaises(ValueError):
+            prepare_creation(self.home, [bad])
+
     def test_top_limit(self):
         with self.assertRaises(ValueError):
             choose_references(self.home, top=999)
