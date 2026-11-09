@@ -2,8 +2,8 @@
   "schema_version": "1.0",
   "id": "cinematic-editorial",
   "version": "1.0.0",
-  "title": "Cinematic Editorial / 电影感叙事",
-  "summary": "One dramatic subject, restrained light, deliberate negative space and compact editorial typography.",
+  "title": "电影感叙事｜Cinematic Editorial",
+  "summary": "让一个清楚可辨的主体成为画面焦点，用克制的光线、暗背景和留白承载简短标题；不适合信息特别密集的版面。",
   "status": "active",
   "tags": [
     "cinematic",
@@ -45,16 +45,16 @@
     ]
   },
   "dna": {
-    "principle": "Make a single recognizable subject the visual event; let a carefully controlled dark-to-light hierarchy carry a concise story.",
+    "principle": "用明暗和空间把观众注意力集中到一个主体上，再让短标题补充情绪或主题；其他元素退后。",
     "composition": {
-      "layout": "asymmetric editorial hero",
-      "focal_strategy": "One large focal subject anchored near a third; preserve face and silhouette",
+      "layout": "非对称编辑式构图：主体偏向画面一侧，给标题留出另一侧的空间。",
+      "focal_strategy": "主体占较大比例，通常接近三分线；人物脸部或商品轮廓必须清楚，不为效果扭曲外形。",
       "text_zones": [
-        "Top or left negative-space band for an expressive headline",
-        "Quiet lower edge for limited supporting information"
+        "上方或左侧的干净留白放短标题，确保背后的对比足够。",
+        "底部相对安静的区域放少量必要说明，不与主体争夺注意力。"
       ],
-      "negative_space": "Reserve roughly one intentional uncluttered side",
-      "depth": "Distinct foreground subject with a subdued, atmospheric background"
+      "negative_space": "至少留出一块连续的、不被装饰打断的文字或呼吸空间。",
+      "depth": "主体在前，背景适度暗化或弱化；不要通过增加无关物品制造层次。"
     },
     "visual": {
       "palette": [
@@ -62,47 +62,47 @@
         "#DDD0BD",
         "#C56E53"
       ],
-      "contrast": "High subject/background separation; restrained accent",
-      "lighting": "Directional soft rim light, gentle falloff",
-      "texture": "Fine film-like grain used sparingly",
-      "image_treatment": "Preserve realistic subject proportions; mute surrounding distractions",
+      "contrast": "主体与背景有明显明暗差别；强调色只用于少量关键细节。",
+      "lighting": "柔和的方向性光线，必要时用克制的轮廓光分开主体和背景。",
+      "texture": "少量细颗粒模拟胶片感，但不能影响人脸和文字。",
+      "image_treatment": "保留真实比例和可识别特征，降低周围杂乱内容的干扰。",
       "elements": [
-        "single subtle light bloom",
-        "optional restrained geometric rule"
+        "少量柔和光晕（可省略）",
+        "极简对齐线（仅在有明确作用时添加）"
       ]
     },
     "typography": {
-      "headline_style": "High-contrast editorial display, few words, generous tracking when appropriate",
-      "body_style": "Quiet readable sans with moderate line height",
-      "hierarchy": "Hero first, headline second, details third",
+      "headline_style": "少字、醒目的标题；用字重、字号和行距建立层次，不强制指定某个字体文件。",
+      "body_style": "清晰易读的常规无衬线字体，行距适中。",
+      "hierarchy": "先看主体，再读标题，最后看补充信息。",
       "max_text_density": "low"
     },
     "copywriting": {
-      "voice": "Evocative, concise, human",
-      "headline_guideline": "One short evocative line; no unsupported grand claims",
-      "cta_guideline": "Omit unless the purpose requires action"
+      "voice": "克制、有画面感，避免空泛口号。",
+      "headline_guideline": "一句短而具体的表达；不要编造身份、成绩或承诺。",
+      "cta_guideline": "只有确实需要引导行动时才添加按钮或行动文案。"
     }
   },
   "rules": {
     "must": [
-      "Maintain a single unmistakable visual hero",
-      "Make exact text readable against a reserved negative-space zone",
-      "Preserve subject identity and geometry",
-      "Keep accent color limited to intentional focal details"
+      "让一个主体明确成为视觉焦点，不要同时放多个同等抢眼的装饰。",
+      "给准确的标题留出可阅读的区域，不能把字叠在复杂纹理上。",
+      "保留人物、宠物或商品的辨识特征和自然比例。",
+      "强调色只服务少数重要位置，不要全画面都亮。"
     ],
     "prefer": [
-      "Use tonal depth instead of extra ornaments",
-      "Create a clear headline-to-detail size difference"
+      "优先用光线和明暗建立层次，少加装饰。",
+      "标题与说明的字号和字重明显分开。"
     ],
     "avoid": [
-      "Crowding the frame with multiple competing decorations",
-      "Copying a source poster's distinctive full composition",
-      "Rebuilding the subject into an unrecognizable silhouette"
+      "大量装饰与主体抢注意力。",
+      "复制参考海报独特的整体构图、素材和文字安排。",
+      "为追求电影感，把真实主体变得认不出来。"
     ],
     "adaptation": [
-      "For a busy photo, simplify or soften the surrounding environment rather than crop important faces",
-      "For long copy, reduce texture and split into a clear title/detail system",
-      "For a narrow ratio, stack copy vertically below the focal image instead of squeezing it beside the subject"
+      "照片背景杂乱时，优先弱化环境或调整明暗，不直接裁掉重要人物。",
+      "必须出现的文案较长时，减少纹理、分出标题与详情区，不能删掉必要条件。",
+      "画布很窄时，把文字放在主体下方，不勉强挤到旁边。"
     ]
   },
   "provenance": {
@@ -112,7 +112,7 @@
     "confidence": 1,
     "observations": [],
     "inferences": [],
-    "notes": "Original illustrative starter genome; not learned from a third-party poster."
+    "notes": "原创示例基因，展示可迁移的电影感构图规则，并非从某张第三方商业海报复制。"
   },
   "created_at": "2026-11-09"
 }
