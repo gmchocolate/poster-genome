@@ -1,6 +1,11 @@
 import json
 import unittest
+import sys
 from pathlib import Path
+
+REPO_ROOT = SKILL_ROOT
+SKILL_ROOT = REPO_ROOT / 'skills' / 'poster-genome'
+sys.path.insert(0, str(SKILL_ROOT))
 
 from scripts.match_genomes import load_genomes, normalize_ratio, rank_genomes
 from scripts.new_genome import make_draft
