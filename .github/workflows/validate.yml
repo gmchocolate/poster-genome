@@ -1,0 +1,56 @@
+name: Validate Poster Genome
+on:
+  push:
+  pull_request:
+
+jobs:
+  python-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install validator and library dependencies
+        run: python -m pip install -r skills/poster-genome/requirements-dev.txt
+      - name: Check Python syntax
+        run: python -m compileall -q skills/poster-genome/scripts tests
+      - name: Validate genomes and example JSON
+        run: python skills/poster-genome/scripts/validate_library.py
+      - name: Run unit tests including private reference library
+        run: python -m unittest discover -s tests -v
+      - name: CLI example ranking
+        run: python skills/poster-genome/scripts/match_genomes.py --input skills/poster-genome/examples/brief-example.json --top 2 --json
+      - name: Empty private library stays user-local
+        run: |
+          tmp="$(mktemp -d)"
+          POSTER_GENOME_HOME="$tmp" python skills/poster-genome/scripts/taste_library.py list
+          test ! -e "$tmp/index.json"
+
+  skill-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check skill discovery from public repo
+        run: |
+          npx --yes skills add gmchocolate/poster-genome --list | tee /tmp/skill-list.txt
+          grep -q 'poster-genome' /tmp/skill-list.txt
+      - name: Install checked-out skill and verify every dependency
+        run: |
+          temp_dir="$(mktemp -d)"
+          cd "$temp_dir"
+          npx --yes skills add "$GITHUB_WORKSPACE" --skill poster-genome --agent codex --yes
+          dir=".agents/skills/poster-genome"
+          test -f "$dir/SKILL.md"
+          test -f "$dir/references/analysis-framework.md"
+          test -f "$dir/references/personal-taste-library.md"
+          test -f "$dir/references/reference-first-workflow.md"
+          test -f "$dir/genomes/playful-sky-editorial.json"
+          test -f "$dir/scripts/taste_library.py"
+          test -f "$dir/requirements-library.txt"
+          test -f "$dir/requirements-dev.txt"
+          test -f "$dir/requirements-render.txt"
+          test -f "$dir/LICENSE"
