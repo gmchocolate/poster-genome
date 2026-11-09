@@ -1,28 +1,27 @@
+"""Offline matching and draft behavior tests; no image model is invoked."""
 import json
-import unittest
 import sys
+import unittest
 from pathlib import Path
 
-REPO_ROOT = SKILL_ROOT
-SKILL_ROOT = REPO_ROOT / 'skills' / 'poster-genome'
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SKILL_ROOT = REPO_ROOT / "skills" / "poster-genome"
 sys.path.insert(0, str(SKILL_ROOT))
 
 from scripts.match_genomes import load_genomes, normalize_ratio, rank_genomes
 from scripts.new_genome import make_draft
 
-ROOT = Path(__file__).resolve().parents[1]
-
 
 class MatchTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.genomes = load_genomes(ROOT / "genomes")
+        cls.genomes = load_genomes(SKILL_ROOT / "genomes")
 
     def test_ratio_normalization(self):
         self.assertEqual(normalize_ratio("1080:1350"), "4:5")
 
     def test_example_prefers_cinematic(self):
-        brief = json.loads((ROOT / "examples/brief-example.json").read_text(encoding="utf-8"))
+        brief = json.loads((SKILL_ROOT / "examples/brief-example.json").read_text(encoding="utf-8"))
         ranked = rank_genomes(brief, self.genomes)
         self.assertEqual(ranked[0]["id"], "cinematic-editorial")
         self.assertEqual(ranked[0]["score"], 100)
