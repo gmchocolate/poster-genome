@@ -21,7 +21,7 @@ python skills/poster-genome/scripts/match_genomes.py --input skills/poster-genom
 
 ## 给已有图片叠加准确中文
 
-这是一个**简单的文字合成工具**，不是 AI 生图器。你需要自己的照片，以及可以合法使用、包含所需中文字形的字体文件。先在仓库根目录安装可选依赖：
+这是一个**简单的文字合成工具**，不是 AI 生图器。你需要自己的照片，以及可以合法使用、包含所需中文字形的字体文件。先在仓库根目录安装可选依赖（若已通过 npx 安装，可先进入技能目录，再运行 `python -m pip install -r requirements-render.txt`）：
 
 ```bash
 python -m pip install -r requirements-render.txt
