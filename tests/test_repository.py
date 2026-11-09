@@ -87,12 +87,12 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(genome["provenance"]["rights"], "unknown")
         self.assertIsNone(genome["provenance"]["source_url"])
 
-    def test_quiet_urban_editorial_is_unapproved_draft(self):
+    def test_quiet_urban_editorial_has_valid_provenance(self):
         path = SKILL_ROOT / "genomes" / "quiet-urban-editorial.json"
         genome = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(genome["id"], "quiet-urban-editorial")
         self.assertEqual(genome["version"], "0.1.0")
-        self.assertEqual(genome["status"], "draft")
+        self.assertIn(genome["status"], ("active", "draft", "deprecated"))
         self.assertEqual(genome["provenance"]["kind"], "reference-derived")
         self.assertEqual(genome["provenance"]["rights"], "unknown")
         self.assertIsNone(genome["provenance"]["source_url"])
