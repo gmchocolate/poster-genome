@@ -1,5 +1,7 @@
 # Poster Genome 🧬
 
+[![Validate Poster Genome](https://github.com/gmchocolate/poster-genome/actions/workflows/validate.yml/badge.svg)](https://github.com/gmchocolate/poster-genome/actions/workflows/validate.yml)
+
 **Learn the design DNA of great posters. Create original posters from your own images.**
 
 [简体中文](README.zh-CN.md) · [Agent Skills specification](https://agentskills.io/specification)
@@ -42,7 +44,7 @@ python scripts/validate_library.py
 python -m unittest discover -s tests -v
 ```
 
-The match CLI is deterministic and works offline. Vision analysis and image generation rely on capabilities of the host agent. The included starter genomes are **illustrative original examples**, not extracted from copyrighted work. See [Chinese guide](README.zh-CN.md) for the complete design philosophy and workflows.
+The match CLI is deterministic and works offline. For a simple exact-text composition over existing artwork, use `scripts/overlay_text.py` with Pillow and a licensed font (see [examples](examples/README.md)). Vision analysis and image generation rely on capabilities of the host agent. The included starter genomes are **illustrative original examples**, not extracted from copyrighted work. See [Chinese guide](README.zh-CN.md) for the complete design philosophy and workflows.
 
 ## Project map
 
