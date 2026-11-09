@@ -45,8 +45,8 @@ class MatchTests(unittest.TestCase):
         self.assertTrue(cinematic["warnings"])
         self.assertLess(cinematic["score"], 100)
 
-    def test_unreviewed_style_is_not_auto_selected(self):
-        self.assertNotIn("playful-sky-editorial", [g["id"] for g in self.genomes])
+    def test_active_and_draft_genomes_are_distinguished(self):
+        self.assertIn("playful-sky-editorial", [g["id"] for g in self.genomes])
         self.assertNotIn("quiet-urban-editorial", [g["id"] for g in self.genomes])
 
     def test_scaffold_is_draft(self):
