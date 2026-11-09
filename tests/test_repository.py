@@ -75,12 +75,12 @@ class RepositoryTests(unittest.TestCase):
                 self.assertGreaterEqual(len(item["rules"]["must"]), 3)
                 self.assertTrue(item["rules"]["avoid"])
 
-    def test_reference_derived_genome_remains_draft(self):
+    def test_reference_derived_genome_is_active(self):
         path = SKILL_ROOT / "genomes" / "playful-sky-editorial.json"
         genome = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(genome["id"], "playful-sky-editorial")
         self.assertEqual(genome["version"], "0.1.0")
-        self.assertEqual(genome["status"], "draft")
+        self.assertEqual(genome["status"], "active")
         self.assertEqual(genome["provenance"]["kind"], "reference-derived")
         self.assertEqual(genome["provenance"]["rights"], "unknown")
         self.assertIsNone(genome["provenance"]["source_url"])
