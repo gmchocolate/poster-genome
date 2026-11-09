@@ -46,8 +46,10 @@ class MatchTests(unittest.TestCase):
         self.assertLess(cinematic["score"], 100)
 
     def test_active_and_draft_genomes_are_distinguished(self):
-        self.assertIn("playful-sky-editorial", [g["id"] for g in self.genomes])
-        self.assertNotIn("quiet-urban-editorial", [g["id"] for g in self.genomes])
+        selected = {g["id"] for g in self.genomes}
+        for name in ("playful-sky-editorial", "quiet-urban-editorial"):
+            document = json.loads((SKILL_ROOT / "genomes" / (name + ".json")).read_text(encoding="utf-8"))
+            self.assertEqual(name in selected, document["status"] == "active")
 
     def test_scaffold_is_draft(self):
         self.assertEqual(make_draft("test-style", "Test", "Description")["status"], "draft")
