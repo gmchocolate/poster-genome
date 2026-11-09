@@ -26,7 +26,7 @@ class RepositoryTests(unittest.TestCase):
         skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
         self.assertTrue(skill.startswith("---\n"))
         header = skill.split("---\n", 2)[1]
-        self.assertRegex(header, r'(?m)^  version: "0\.3\.0"$')
+        self.assertRegex(header, r"(?m)^name: poster-genome$")
         desc = re.search(r"(?m)^description:\s*(.+)$", header)
         self.assertIsNotNone(desc)
         self.assertLessEqual(len(desc.group(1)), 1024)
