@@ -1,35 +1,38 @@
-# Poster quality review — gate, score, iterate
+# 海报评审：先修错误，再讨论好不好看
 
-Review the *visible actual output*, not only its prompt. When no image is available, review the plan and mark visual quality **unverified**.
+“好看”与“能用”是两件事。评审时先核实事实和交付条件，再说明主观视觉判断。不能因为模型给了高分就说作品通过了真实用户测试。
 
-## Gate 0: hard failures (fix before delivery)
+## 先检查不能带着交付的问题
 
-- Exact supplied characters/digits, names, logos or claims are wrong, invented or missing.
-- Main face, product, pet or required object is distorted, swapped, hidden or cropped contrary to brief.
-- Wrong format/size, broken export, unreadable key text, illegible text over texture or text clipped by the canvas.
-- Unapproved source cloning, unlicensed redistributed visual material, watermark removal, misleading factual material.
+只要出现以下问题，应当修复，或明确报告“尚未解决”：
 
-## Weighted design rubric (0–5 each)
+- 标题、姓名、数字、时间、价格、条件、Logo 或必备说明错误、遗漏或无依据。
+- 用户要求保留的人脸、宠物、产品明显失真，或主体被不合理裁切。
+- 比例、尺寸、文件格式不符合要求；关键文字太小、被遮挡、超出边界。
+- 复制了未经授权的完整视觉表达，或把不具备版权的素材作为可公开资源。
+- 明明没有生成或核对图片，却说“成品已完成”。
 
-| Dimension | Weight | Ask |
+## 通过硬性检查后，再看六项质量
+
+每项给 0–5 分作为**内部讨论工具**；说明理由比数字重要。
+
+| 检查项 | 权重 | 要回答的真实问题 |
 | --- | ---: | --- |
-| Message and first-glance clarity | 20 | Do viewers know what it is about immediately? |
-| Visual hierarchy and layout | 20 | Is there a clear reading path, focus and rhythm? |
-| Typography and actual legibility | 20 | Are lines, spacing, balance, type roles and exact content coherent? |
-| Subject integrity and imagery | 15 | Is source recognizability preserved? Does cropping/light work? |
-| Palette, atmosphere and restraint | 15 | Do contrast and texture reinforce intent without noise? |
-| Technical delivery | 10 | Are edges, size, safe margins and exports usable? |
+| 主题是否一眼明白 | 20 | 缩成手机小图后，能不能迅速知道海报在说什么？ |
+| 主次和构图 | 20 | 视线先看哪里，标题与主体是否互相支持？ |
+| 字体与阅读 | 20 | 重要信息是否读得清、顺序合理、中文换行自然？ |
+| 主体和素材 | 15 | 人物、产品等是否被正确保留和恰当处理？ |
+| 色彩与氛围 | 15 | 对比、光影和纹理是否服务主题，而不是制造噪声？ |
+| 实际交付质量 | 10 | 尺寸、边距、清晰度和格式是否可用？ |
 
-Calculate weighted score as `sum((rating / 5) * weight)`, max 100. **These numbers are subjective review aids, not universal aesthetic truths.** Explain scores with specific evidence, not generic praise.
+总分计算方式：**各项（得分 ÷ 5 × 权重）相加**，满分 100。这不是标准化审美测量，也不能直接证明真实观众更喜欢。
 
-## Iteration discipline
+## 每轮怎么改
 
-1. List top 1–3 issues with visible evidence and severity.
-2. Separate blocking defects from style preferences.
-3. State a precise change instruction: what to adjust, what must remain unchanged, how success will look.
-4. Regenerate/edit the affected visual layers if possible; reassess. Limit gratuitous full-scene regeneration that sacrifices identity and copy.
-5. Deliver only after hard-failure gates are passed. If not fixable with the host tools, name the remaining defect without claiming the work is publish-ready.
+1. 只指出最重要的 1–3 个问题，要有具体位置或现象。
+2. 标出哪些是错误，哪些只是用户偏好；别把个人品味装成唯一答案。
+3. 提出定向修改：“把左下标题移到留白处、增大字重，其他人物和文案保持不变”。
+4. 如果工具允许就真的修改；再次看图并重新检查硬约束。
+5. 没法修的说清楚，不能把未检查的底图称作已可发布海报。
 
-## Quick thumbnail review
-
-Would it be understandable and distinctive when shown on a small phone screen? If not, simplify competing accents, improve headline contrast or enlarge the hero instead of adding more elements.
+**需要保留的东西，应在修改指令里写出来。** 如“保留人物、服装、标题字句、品牌标志和画布比例”。

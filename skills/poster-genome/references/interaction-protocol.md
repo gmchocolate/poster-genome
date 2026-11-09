@@ -1,37 +1,39 @@
-# Intelligent questions: minimum information, maximum design freedom
+# 创作前怎么提问：少问，但不能漏掉重要信息
 
-## First pass
+用户上传照片，是希望尽快看到好海报，不是完成一份设计调查问卷。先看图，再判断哪些信息缺了会导致作品做错。
 
-Inspect the input without questioning the user about things visible in the image. Infer the subject type, number of salient subjects, approximate orientation, source-background complexity, content safety and potential text-safe regions. Inferred intent is a hypothesis, not a hard fact.
+## 先看图，不要让用户重复描述
 
-Before creating, gather enough to avoid consequential errors:
+看得见的内容：主体种类和数量、方向、背景复杂度、留白、裁切风险、已有文字。看不清就承认。不要因为不知道用户喜欢哪个术语，就问“你要什么视觉语言”。
 
-1. **Purpose / audience / occasion** — if ambiguous and affects creative direction.
-2. **Exact required content** — headline, dates, venue, names, price, CTA, brand and legal wording. Never fabricate details.
-3. **Canvas** — ratio, physical dimensions/platform if unknown and consequential.
+## 三类最值得问的问题
 
-At most **three focused questions in one turn**. Prefer one combined, natural question when only one detail matters. Do not use a bulky questionnaire. If the user says "you decide", set safe defaults and explain them briefly.
+1. **用途和对象：** 做给谁看？生日、活动、商品宣传还是个人纪念？仅当这些差异会改变设计时才问。
+2. **必须出现的原文：** 标题、祝福语、姓名、地点、时间、价格、品牌、法律说明等。不能替用户编造事实。
+3. **输出方式：** 朋友圈、竖版屏幕、公众号封面、打印？已有准确尺寸就不再问。
 
-## Defaults (overridable)
+**每轮最多三个关键问题。** 可以合并成一句自然提问。用户回答“其他你决定”后继续制作，不无限追问。
 
-- Social poster with no size specified: propose portrait `4:5`, 1080×1350; if user's original image is landscape and important content would be lost, use `16:9` or ask.
-- Unknown mood: infer from the source and goal, mark it as suggested, not supplied.
-- Unknown title: offer a clearly marked draft line, do not present invented factual claims as user-approved copy.
-- No CTA: omit it unless the purpose explicitly calls for conversion.
-- Source image should preserve distinctive people, pets, products and logos; seek confirmation only if replacing them is central to the concept.
-- If user asks to copy a reference precisely, explain the originality boundary; offer a fresh composition using transferable principles.
+## 无特殊要求时的可调整默认值
 
-## Example
+- 社交媒体竖版可以从 **4:5 / 1080×1350** 开始，但若会裁掉重要人脸或产品，不强行裁切；必要时建议其他比例。
+- 没有指定配色或氛围时，根据素材与用途提出一个方案，说明是“建议”，不是用户要求。
+- 没有指定文案时，可给**明确标为建议**的短标题；不得臆造日期、门店、优惠、身份或承诺。
+- 没有行动按钮需求就不硬加“立即抢购”。
+- 用户想保留的人脸、宠物、产品和商标一律视为优先约束。
 
-Source: crowded photo with two people; user says "做张生日海报".
+## 示例：生日海报
 
-Ask: "海报写给谁？必须出现的祝福语是什么？你希望发朋友圈竖版（默认 4:5），还是另有尺寸？"
+用户：“给这张双人合照做生日海报。”
 
-If user replies "给奶奶，祝奶奶生日快乐，其他随意": stop asking. Use exact blessing, select mood based on photo, keep both people recognizable, avoid cropping faces.
+可问：“是祝谁生日快乐？想写的原话是什么？默认做朋友圈 4:5 竖版，可以吗？”
 
-## Confirmations and friction
+用户：“祝奶奶生日快乐，其他你决定。”
 
-- Warn before irreversible cropping, brand distortion, unverified claims or public-library writes.
-- Don't ask for favorite font, palette, 12 keywords, style taxonomy or resolution unless needed.
-- Keep open-ended questions actionable; support "自动决定" as a valid answer.
-- Ask for missing image only when none was provided and it is essential to the visual task.
+接下来直接做：保留两个人，使用准确祝福语，根据画面选基因并给出方案。不要继续问十种字体或颜色选项。
+
+## 什么情况需要停一下
+
+当文字事实矛盾、素材无法辨认、重要主体会被严重截断、品牌信息不准确、没有授权发布私密照片时，指出**具体风险**并询问必要的一个问题。
+
+向用户说明不能做什么时，也给一个不会擅改事实的替代方案。

@@ -1,37 +1,58 @@
-# Genome data model, matching and governance
+# 设计基因是什么，怎样选，怎样更新
 
-## What a genome is
+## 一、设计基因不是“海报模板”
 
-A **genome** is an inspectable, reusable *decision system* for layout and art direction. It is not a single giant generation prompt, an unlicensed font collection or a pixel template. Each genome lives in one JSON file under `genomes/`, follows `schemas/genome.schema.json`, and records:
+模板常常固定图文位置，换一张照片就不一定合适。设计基因保存的是**做决定的方法**：面对哪种图片，为什么使用哪种布局、对比、文字层次，以及遇到长标题、杂乱背景时如何调整。
 
-- `compatibility`: suitable subjects/intents/moods/ratios plus input-image requirements and warnings.
-- `dna`: compositional grammar, palette roles, type hierarchy, copywriting voice and visual treatment.
-- `rules`: mandatory principles, preferences, anti-patterns and adaptation strategies.
-- `provenance`: original/reference-derived origin, rights status, confidence and grounded observations.
-- `version`, `status` and `tags`: discoverability, controlled evolution and deprecation.
+每个基因在 `genomes/<id>.json` 保存一份独立文件，并符合 `schemas/genome.schema.json`：
 
-Keep foundational design knowledge in `references/` and specific choices inside individual genomes. A genome does not need to encode every conceivable dimension.
+| 字段 | 大白话含义 |
+| --- | --- |
+| `compatibility` | 适合什么主体、用途、情绪、画布比例，需要什么图片条件 |
+| `dna` | 怎么安排主体、色彩、背景、文字和文案语气 |
+| `rules` | 必须做到什么、优先怎么做、不要做什么、情况变化如何调整 |
+| `provenance` | 这些经验从哪里来，观察和推断有哪些，不确定的是什么 |
+| `version` / `status` | 这个基因是哪版、是否启用或弃用 |
 
-## Selection policy
+## 二、为什么选择它，而不是另一个
 
-Classify the source subject and brief. Query `scripts/match_genomes.py` with `--input` or `--subject`, `--intent`, `--mood`, `--ratio`, `--conditions`. Rank compatible candidates using the deterministic weighted matcher, and *then* exercise art-direction judgment. Ranking is **heuristic**, not measured design quality. Never match an inappropriate style merely because it scored highest. Explain what in the input made it fit.
+先从用户素材提取最基本的条件：是人像还是商品？用途是什么？想表达什么情绪？画布是多大？必要时再检查“主体是否清楚、背景是否复杂”。
 
-If no genome is suitable, devise an original one-off direction; do not force a weak fit. A manual user choice overrides auto-selection unless it would violate hard requirements.
+本地检索示例：
 
-## Learning, saving and deduplication
+```bash
+python scripts/match_genomes.py --subject person --intent editorial --mood cinematic --ratio 4:5
+```
 
-1. Produce a candidate ID and summary; compare against existing genomes.
-2. If same visual logic exists, propose a minor/major revision or a variant instead of duplicating nearly-identical files.
-3. New source references should be described in metadata, not embedded as unlicensed public binary files.
-4. **Ask the user to approve saving** before committing or updating shared library records.
-5. After approval, create `genomes/<id>.json`, validate JSON/schema, update tests/examples when necessary, and summarize what changed.
-6. Use semantic versioning: PATCH spelling/rule clarity without behavioral change; MINOR additive compatible guidance; MAJOR breaking layout/compatibility changes. Do not silently rewrite previous learning.
-7. Mark replaced styles as `deprecated`, preserving discoverable history when possible.
+脚本按匹配的主体（35）、用途（25）、情绪（20）、比例（20）给分；只填写部分条件时按所填字段重新换算为 100 分。如果已提供图片条件，必要条件未确认或碰到不适用条件会扣分；没提供时只提示核实。
 
-## Combining genomes
+**请注意：这个分数只用于挑候选，不是在测作品的审美水平。** 高分不代表海报一定好看，低分也不说明这种风格绝对不能用。要结合素材是否容易裁切、标题有多长、用户有没有明确指定风格进行人工判断。
 
-Blend at most two unless explicitly requested. Select a **base** for composition and an **accent** for a limited characteristic (palette or texture or type). Preserve one dominant hierarchy. When layout systems conflict, choose one rather than mixing grids indiscriminately.
+没有合适基因时，做原创的一次性设计方向，不强行选一个。
 
-## Privacy and portability
+## 三、怎样从一张参考海报更新基因库
 
-Local learning artifacts are private until the user chooses to share. Keep personal input photos out of the repository by default. Paths in examples are placeholders. Avoid runtime state that only one AI vendor can interpret; JSON and Markdown are the portable truth.
+1. 先讲清楚看到的画面证据和设计推断。
+2. 用 3–8 条**可操作**规则描述候选；不要写“高端大气”这类无法执行的要求。
+3. 与现有基因比较：只是色彩变化？还是阅读顺序、布局和适用场景都不同？
+4. 提出建议：复用现有、更新一个基因，或新建基因。说明原因和可能代价。
+5. **等用户批准后才写文件**，并记录来源、版权状态、版本、适用条件和失效场景。
+6. 运行校验，并根据需要补充匹配测试。
+
+示例草稿命令（执行会写文件，只有获授权才运行）：
+
+```bash
+python scripts/new_genome.py --id quiet-editorial --title "留白叙事" --summary "主体与短标题清晰分离的版式"
+```
+
+生成的 `REPLACE` 占位符必须填写完再启用。不能把未经批准的参考图直接放进公开仓库。
+
+## 四、版本和组合
+
+- **PATCH：** 改错字、说明，更正不改变设计行为的表达。
+- **MINOR：** 兼容现有规则的小幅扩展，例如新增一种明确适用的比例。
+- **MAJOR：** 改变布局逻辑、删掉适用场景等可能破坏旧用法的修改。
+
+组合时通常最多选两套：一套负责主要构图，另一套只提供少量配色、纹理或字体特征。若两套布局互相冲突，必须选一套主方案。
+
+用户个人照片和未公开参考材料只用于当前任务；未经明确许可不入库。更多边界见 [来源与权利](rights-and-provenance.md)。

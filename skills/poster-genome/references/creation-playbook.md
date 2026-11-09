@@ -1,44 +1,47 @@
-# Art direction and poster production
+# 从一张照片到一张海报：制作流程
 
-## 1. Build the production brief
+本文件负责把用户要求变成实际的设计步骤。不要只说“生成高级感海报”，要让另一位设计师也能照着描述做出来。
 
-Separate non-negotiable constraints (exact headline, names, numbers, logo, safety, recognizability, aspect ratio) from adjustable taste (mood, palette, atmosphere). Determine whether the input is a background, focal subject, full scene or logo. Identify potential crops, occlusion and text-safe regions. If resolution is weak, note the limitation and prefer simpler treatments.
+## 第一步：确定“不能改”和“可以设计”
 
-## 2. Compose before rendering
+**不能擅改：** 用户指定的标题、数字、姓名、价格、日期、人物/宠物/产品身份、Logo、必备信息、比例和授权限制。
 
-Write a short **visual blueprint** that specifies:
+**可以设计：** 留白、色彩、对比、装饰、背景气氛、字体类别、图文层次和裁切方式（前提是不损害必须保留的主体）。
 
-- **One sentence concept**: what it should feel like and communicate.
-- **Canvas**: aspect, pixels/medium, intended viewing distance, padding/safe area.
-- **Hierarchy**: first glance, second glance, action/details.
-- **Subject**: exact source item to retain; focal position, scale, crops, light/depth.
-- **Text boxes**: top/left/width/height estimates; line breaks, relative type scale, alignment and maximum lines.
-- **Layers**: background → environmental treatment → subject → accents → typography → marks/CTA.
-- **Palette**: base, text and highlight roles, with adequate contrast; don't overuse accents.
-- **Adaptations**: what changes if the headline is twice as long, subject is off-center or aspect changes.
+资料缺失时只问必要问题。不能把“国庆活动”自行写成某个日期，更不能捏造折扣或背书。
 
-Use the selected genome's grammar, not its literal sample composition. Add only visual elements with a communicative purpose.
+## 第二步：先画一张“文字版布局草图”
 
-## 3. Image generation or editing
+在使用生成工具前，应能回答：
 
-Prefer actual image editing for user-provided photos when the host can preserve identity; ask for a source crop or mask only when it materially improves the result. If using generation, direct the model to preserve relevant identity, avoid invented text/logo and leave required text zones clear. Distinguish a *visual draft* from a final export.
+1. **一句话主题：** 观众第一眼应该感到什么、知道什么？
+2. **画布和观看方式：** 竖版、横版、手机小图或打印？像素和边距要求是什么？
+3. **主角：** 放在哪里、占多大、哪些脸或物品必须完整显示？
+4. **阅读顺序：** 第一眼主体、第二眼标题、第三眼补充信息是否合理？
+5. **文字区：** 标题、说明和品牌各放哪里？最长几行？背景对比够不够？
+6. **视觉层次：** 背景 → 环境效果 → 主体 → 少量图形 → 文字 → 品牌，哪些可以重叠？
+7. **比例变化：** 换成 1:1 或长标题时，哪些规则需要跟着变？
 
-Suggested rendering instructions (adapt to the actual tool):
+使用所选基因的布局方法，但不要复刻某一张商业海报的完整独特安排。
 
-> Create an original poster artwork. Canvas [ratio]; main subject [source identity and preserve instructions]; composition [specific blueprint]; palette [roles]; lighting [effects]; texture [restrained treatment]; preserve space for exact typography in [zones]. Do not introduce random letters, watermarks, unrequested logos or extra faces. Avoid copying any single reference poster's distinctive full composition.
+## 第三步：调用真正可用的制作工具
 
-If exact copy is essential and the image tool produces garbled letters, perform text placement with a reliable editable typography layer rather than accepting misspellings. Do not invent typography tools or claim fonts installed.
+有生图或修图能力时，先制作原创视觉底图。提示词要具体说明主体、位置、光线、色彩、背景、保留身份和文字安全区，并禁止无关假字、Logo、水印和多余人物。
 
-## 4. Copywriting
+需要**准确汉字、价格、日期或品牌文字**时，优先在后续的可控文字图层中排版，避免接受生成模型的乱码。仓库的 `scripts/overlay_text.py` 只支持把文字简单地放到已有图片的下方区域，依赖 Pillow 和用户合法拥有的字体；它不是完整设计器。
 
-- Ask for text that must be exact; never invent venue, date, pricing, endorsements or guarantees.
-- Suggest alternatives only where the user delegated copywriting.
-- Structure headline first, then one explanatory subtitle, then details/CTA if relevant.
-- Prefer clear, human-readable wording over pseudo-luxury jargon and generic AI marketing clichés.
-- For Chinese: make line breaks natural; avoid isolated single characters at line ends or awkward splitting of names.
+没有实际生图工具，就交付以上布局草图、完整文案和可复用生成提示词。明确告诉用户**本次并未生成图片**。
 
-## 5. Export and technical checks
+## 第四步：让文字既准确又容易读
 
-Check real output dimensions, ratio, clipping, image subject fidelity, important margin, line readability at target size, color consistency and all visible characters. For print, request actual bleed/trim/profile requirements and use appropriate tools; do not claim a screen PNG is CMYK-ready print art. For social, export at actual platform size where possible.
+- 主标题说清楚主题，不要让所有文字抢同一个位置。
+- 说明文字补充用户已经提供的事实；没有事实就不要编造。
+- 姓名、地名和词组保持在自然的行内关系中，避免中文断句困难。
+- 不因为追求“极简”删除时间地点、价格条件或用户要求的免责信息。
+- 如果画面无法同时容纳必备文字，应说明限制并调整版式，不默认砍掉内容。
 
-If no renderer exists, deliver a clear blueprint with edit-ready copy, positional descriptions and prompts that another designer/tool can execute, explicitly saying no image was generated.
+## 第五步：对照成品逐项验收
+
+先核实**硬约束**：文字逐字正确、主体清楚、尺寸符合、没有错标和裁切，再评估层次、配色、排版和氛围。参考 [质量评审](quality-rubric.md) 的要求。
+
+如果是打印，需要用户指定印刷尺寸、出血和颜色模式，再用支持这些能力的工具处理；不把普通 RGB 图片冒充已完成的专业印刷文件。

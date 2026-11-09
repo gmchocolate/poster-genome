@@ -1,59 +1,82 @@
-# Reference poster analysis: observe → explain → generalize
+# 海报学习：从画面观察到设计规则
 
-## Working method
+**用途：** 用户上传一张喜欢的海报时，帮助 Agent 回答两个不同问题：画面上有什么？它为什么可能这样安排？第二个问题必须有第一个问题作为依据。
 
-Inspect the poster with as much image fidelity as actually available. Never fill in unseen corners or invisible text. Analyze both *what appears* and *what carries attention*. Use normalized coordinates (x/y from 0–1 relative to the whole canvas) when useful. Geometry estimates are approximate unless measured.
+## 1. 先说明能看到多少
 
-### A. Inventory (count and function)
+确认画布方向和大致比例、图片是否清楚、文字是否能读、主体有没有被截断。不要从低清缩略图推断确切字体、细腻肌理或图层制作方法。
 
-Describe canvas aspect/orientation and probable display medium. Inventory primary subject(s), supporting subject(s), background environment, independent cutouts, illustrations/graphics, abstract shapes, brand marks, visual effects, text groups and small-print information. For each: approximate count, relative scale, region, overlap, perceptual weight, likely job (attract / explain / prove / convert). Do not turn every tiny texture mark into a new object. Note when multiple elements are actually a composite photo.
+使用三个证据标签：
 
-### B. Structural mapping
+- **观察：** 图片中直接看得见，例如“右侧有一个人物，左侧是标题”。
+- **推断：** 基于画面的合理解释，例如“左侧留白可能让标题更显眼”；不是设计师本人说明或实验结果。
+- **未知：** 仅凭图片判断不了，例如字体文件名、拍摄设备、是否用了特定图层、授权情况。
 
-- Dominant focal subject and secondary focal areas; reading order and eye path.
-- Alignment/grid: centered, asymmetric, split, modular, editorial, diagonal, freeform.
-- Space distribution: occupied vs negative, intentional breathing room vs wasted space.
-- Hierarchy: subject → headline → supporting copy → details → brand/CTA; mention deviations.
-- Cropping and depth: overlapping planes, occlusions, foreground/background, lens perspective.
-- Edge and safe margins: text crowding, touching trim, icon/detail scale.
-- Subject/image–type relationships: type behind subject, foreground overlay, text in negative space.
+## 2. 素材清单：先数主角，再看配角
 
-### C. Visual treatment
+按影响力记录，而不是按像素逐个计数：
 
-- Palette by role (dominant / accent / neutrals), tonal relationships, warm/cool, saturation. Approximate hex only with an actual sampler, otherwise use color names.
-- Light direction, softness, subject-background separation, dramatic or flat treatment.
-- Contrast and legibility; whether text remains legible at mobile thumbnail size.
-- Texture, grain, halftone, gloss, gradients, motion blur, cut-paper, material cues; distinguish observed from hypothetical methods.
-- Style/genre taxonomy: editorial, cinema, luxury, playful, brutalist, retro, futuristic, photographic, collage, illustration, typographic, etc.
-- Image fidelity, retouching degree and print/screen likely considerations (as inference).
+| 看什么 | 要回答的问题 |
+| --- | --- |
+| 主体 | 人、宠物、商品还是图形？有几个？哪个必须被认出来？ |
+| 辅助内容 | 陪衬主体的照片、物件或插画有几个？各自做什么？ |
+| 背景 | 真实场景、抽象形状、渐变还是纯色？它在衬托还是分散注意力？ |
+| 装饰 | 几何图、线条、纹理、光斑等是否有明确作用？ |
+| 文字 | 主标题、副标题、详情、按钮或品牌信息分别在哪里？ |
+| 层次 | 哪些遮挡哪些？哪个在前、哪个在后？ |
 
-### D. Typography & copy
+数字和百分比没有实际测量就注明“大约”，文字认不清时写“无法辨认”，绝不补造。
 
-Record visible headline/subhead/body/CTA/legal text exactly **only when actually readable**, marking unclear spans. Identify alignment, line break strategy, contrast, letter spacing, leading, size ratio, weight contrast, punctuation and hierarchy. Classify type as serif / sans / script / display / mono instead of guessing a font family. Explain why the message and visual tone reinforce each other (or clash).
+## 3. 构图：让人按什么顺序看
 
-### E. Design causality
+先用一句话回答：**第一眼看什么，接着读什么，最后获得什么信息？**
 
-For each important feature: **Observation → effect on perception → portable rule → conditions → failure mode**.
+然后检查：
 
-Example:
-- Observation: single bright subject against restrained dark surroundings
-- Effect: rapid subject isolation with cinematic tension
-- Transferable rule: restrict accents to the focal object and keep supporting information quiet
-- Works when: subject has a clean enough silhouette and short copy
-- Fails when: small factual text is numerous or foreground/background separation is weak
+1. **主次。** 谁占最大视觉权重？大小、对比、位置是否一致地支持这个主角？
+2. **布局。** 居中、左右分区、对角、网格，还是有意打破对齐？不要因为不对称就判定“高级”。
+3. **留白。** 哪块空间不放内容？这是否帮助观看者停顿、理解或阅读标题？
+4. **裁切和层次。** 主体是否完整？被切掉的部分是否损害识别？图文遮挡关系是否清楚？
+5. **视线路径。** 标题的位置与主体的视线、朝向、亮部是否互相呼应？
+6. **版式适应。** 缩到手机封面大小后，信息顺序还能成立吗？
 
-Do not claim causality was experimentally measured. These are design hypotheses.
+有条件时可以使用相对位置（如画布左上约 20%），但这不是自动检测产生的精确坐标。
 
-## Confidence discipline
+## 4. 色彩、光影和画面质感
 
-- **observed:** directly visible, cite image region/description.
-- **inferred:** plausible explanation, visually supported but not proven.
-- **unknown:** not observable (font name, exact layer stack, original file, usage license).
-- A confidence number is *your uncertainty estimate*, not a calibrated scientific probability.
-- If source is low-resolution: call out how uncertainty affects texture, type and edge analysis.
+先判断**角色**：底色、主色、强调色和文字色。接着解释冷暖、明暗、饱和度和对比度如何共同服务主题。没有取色工具时只写近似色名，不给“精准 HEX”。
 
-## Candidate genome formation
+观察是自然光、方向性灯光、逆光还是均匀光；纹理可能是颗粒、纸张、半色调、渐变或镜面，但无法确定具体软件工艺就说明是推断。
 
-Transfer *rules*, not branded assets or exact protected expression. Name the abstract style. Specify subject/intent/mood/ratio compatibility, required image conditions, layout/typography/visual DNA, adaptation rules and anti-patterns. Prefer 3–8 decisive rules over a laundry list.
+避免空洞评价：“高级、震撼、质感拉满”。改为具体描述：“低饱和背景让唯一的红色产品成为焦点”，并注明它属于视觉效果推断。
 
-Use `schemas/analysis.schema.json` for deep analysis and `schemas/genome.schema.json` for the candidate; explain evidence and avoid duplicate genomes. **Do not save to shared library without explicit approval.**
+## 5. 文案与字体：信息是否容易理解
+
+- 看标题说了什么，是否需要读完副标题才能知道主题。
+- 找出标题、说明、时间地点、行动提示、署名或法务信息的阅读顺序。
+- 观察文字对齐、字号比例、粗细、行距、字距和是否压住主体。
+- 字体能确定**类别**（衬线、无衬线、手写、装饰等）时说明类别；无依据不报具体字体名称。
+- 中文换行要保留完整姓名、日期和逻辑关系，避免分散一个词的意思。
+- 原海报使用含混或诗意表达时，描述其作用；不要为了通俗而剥夺必要的创意表达。
+
+## 6. 为什么好：用因果假设替代形容词
+
+每条规则写成：
+
+> **观察 → 可能的视觉作用 → 可迁移的方法 → 何时适用 → 何时失效**
+
+**示例：**
+
+- 观察：主体是画面里最亮的部分，背景较暗。
+- 可能的作用：观看者容易先注意到主体。
+- 可迁移的方法：让主体与环境有明确的明暗差别；不要给所有元素同等亮度。
+- 适用：主体轮廓清楚、文字不太多的宣传或人物海报。
+- 失效：需要同时展示很多商品信息、表格或长篇说明时。
+
+这只是合理的设计分析，不代表通过眼动实验验证了观看顺序。
+
+## 7. 最后提取基因
+
+从分析里选 **3–8 条真正决定风格的规则**，补充：适用主体、用途、情绪、比例、图片质量要求、文字长度上限及反例。记录原图来源和不确定性；与现有基因比较后再决定是新建还是更新。
+
+写入格式遵循 `schemas/analysis.schema.json` 和 `schemas/genome.schema.json`。没有用户同意，**只展示候选，不写入公开库**。
