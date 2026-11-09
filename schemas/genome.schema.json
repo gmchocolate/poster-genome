@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gmchocolate/poster-genome/blob/main/schemas/genome.schema.json",
+  "title": "Poster Genome v1",
+  "description": "Reusable, original poster design decisions; not a pixel clone.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "active",
+        "draft",
+        "deprecated"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "moods": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "ratios": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9]+:[0-9]+$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "required_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "avoid_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "subjects",
+        "intents",
+        "moods",
+        "ratios",
+        "required_conditions",
+        "avoid_conditions"
+      ]
+    },
+    "dna": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "principle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "composition": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "layout": {
+              "type": "string",
+              "minLength": 1
+            },
+            "focal_strategy": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text_zones": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "negative_space": {
+              "type": "string",
+              "minLength": 1
+            },
+            "depth": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "layout",
+            "focal_strategy",
+            "text_zones",
+            "negative_space",
+            "depth"
+          ]
+        },
+        "visual": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "palette": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "contrast": {
+              "type": "string",
+              "minLength": 1
+            },
+            "lighting": {
+              "type": "string",
+              "minLength": 1
+            },
+            "texture": {
+              "type": "string",
+              "minLength": 1
+            },
+            "image_treatment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "elements": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "palette",
+            "contrast",
+            "lighting",
+            "texture",
+            "image_treatment",
+            "elements"
+          ]
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "headline_style": {
+              "type": "string",
+              "minLength": 1
+            },
+            "body_style": {
+              "type": "string",
+              "minLength": 1
+            },
+            "hierarchy": {
+              "type": "string",
+              "minLength": 1
+            },
+            "max_text_density": {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ]
+            }
+          },
+          "required": [
+            "headline_style",
+            "body_style",
+            "hierarchy",
+            "max_text_density"
+          ]
+        },
+        "copywriting": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "voice": {
+              "type": "string",
+              "minLength": 1
+            },
+            "headline_guideline": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cta_guideline": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "voice",
+            "headline_guideline",
+            "cta_guideline"
+          ]
+        }
+      },
+      "required": [
+        "principle",
+        "composition",
+        "visual",
+        "typography",
+        "copywriting"
+      ]
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "must": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 3,
+          "uniqueItems": true
+        },
+        "prefer": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "adaptation": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "must",
+        "prefer",
+        "avoid",
+        "adaptation"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "original",
+            "reference-derived"
+          ]
+        },
+        "rights": {
+          "enum": [
+            "original",
+            "permission-granted",
+            "unknown",
+            "restricted"
+          ]
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "inferences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "rights",
+        "source_url",
+        "confidence",
+        "observations",
+        "inferences"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "title",
+    "summary",
+    "status",
+    "tags",
+    "compatibility",
+    "dna",
+    "rules",
+    "provenance",
+    "created_at"
+  ]
+}

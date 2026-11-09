@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "subject": "person",
+  "intent": "editorial",
+  "mood": "cinematic",
+  "ratio": "4:5",
+  "conditions": [
+    "clear_subject"
+  ],
+  "source_description": "A well-lit portrait with generous space to one side; example only.",
+  "purpose": "A personal editorial portrait",
+  "audience": "Friends",
+  "headline": "秋日物语",
+  "subtitle": "留住此刻",
+  "footer": "",
+  "brand": "",
+  "constraints": {
+    "preserve_identity": true,
+    "preserve_logo": false,
+    "exact_text": [
+      "秋日物语",
+      "留住此刻"
+    ],
+    "must_include": [],
+    "must_avoid": [
+      "invented brand marks",
+      "extra faces"
+    ]
+  },
+  "output": {
+    "width": 1080,
+    "height": 1350,
+    "medium": "social"
+  }
+}

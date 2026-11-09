@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Poster creation brief (partial fields allowed)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mood": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ratio": {
+      "type": "string",
+      "pattern": "^[0-9]+:[0-9]+$"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "source_description": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "audience": {
+      "type": "string"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "footer": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preserve_identity": {
+          "type": "boolean"
+        },
+        "preserve_logo": {
+          "type": "boolean"
+        },
+        "exact_text": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "must_include": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "must_avoid": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "preserve_identity",
+        "preserve_logo",
+        "exact_text",
+        "must_include",
+        "must_avoid"
+      ]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "medium": {
+          "enum": [
+            "social",
+            "print",
+            "screen",
+            "other"
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "medium"
+      ]
+    }
+  },
+  "required": [
+    "schema_version"
+  ]
+}

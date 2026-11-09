@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reference poster analysis",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "mode": {
+      "const": "learn"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "rights": {
+          "enum": [
+            "original",
+            "permission-granted",
+            "unknown",
+            "restricted"
+          ]
+        },
+        "image_quality": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "description",
+        "source_url",
+        "rights",
+        "image_quality"
+      ]
+    },
+    "inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "approx_count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "category",
+          "approx_count",
+          "location",
+          "role"
+        ]
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "certainty": {
+            "enum": [
+              "observed",
+              "inferred",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "dimension",
+          "claim",
+          "evidence",
+          "certainty"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "design_logic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hierarchy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eye_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "why_it_works": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transferable_rules": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 3,
+          "uniqueItems": true
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "hierarchy",
+        "eye_path",
+        "why_it_works",
+        "transferable_rules",
+        "limitations"
+      ]
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "save_status": {
+          "enum": [
+            "not-requested",
+            "awaiting-approval",
+            "approved",
+            "saved"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "summary",
+        "save_status"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "mode",
+    "reference",
+    "inventory",
+    "observations",
+    "design_logic",
+    "unknowns",
+    "candidate"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "id": "bold-type-minimal",
+  "version": "1.0.0",
+  "title": "Bold Type Minimal / 字体主导极简",
+  "summary": "Graphic typography, simple geometric structure, a strict palette and one carefully placed image.",
+  "status": "active",
+  "tags": [
+    "typographic",
+    "minimal",
+    "graphic",
+    "contemporary",
+    "announcement"
+  ],
+  "compatibility": {
+    "subjects": [
+      "product",
+      "food",
+      "abstract",
+      "person",
+      "pet"
+    ],
+    "intents": [
+      "advertisement",
+      "announcement",
+      "event",
+      "social"
+    ],
+    "moods": [
+      "bold",
+      "minimal",
+      "playful",
+      "contemporary"
+    ],
+    "ratios": [
+      "1:1",
+      "4:5",
+      "9:16",
+      "16:9"
+    ],
+    "required_conditions": [],
+    "avoid_conditions": []
+  },
+  "dna": {
+    "principle": "Let a short piece of precise typography do the heavy lifting while one image or shape establishes context.",
+    "composition": {
+      "layout": "asymmetric modular grid",
+      "focal_strategy": "Headline and one image compete productively but not equally",
+      "text_zones": [
+        "Upper half headline block",
+        "Bottom corner details and optional CTA"
+      ],
+      "negative_space": "Wide uncluttered margins and deliberately empty module",
+      "depth": "Flat geometric planes with a single cropped photo layer"
+    },
+    "visual": {
+      "palette": [
+        "#F4F0E8",
+        "#151515",
+        "#FF523B"
+      ],
+      "contrast": "Strong light/dark block contrast with one bright accent",
+      "lighting": "Neutral source-faithful lighting",
+      "texture": "Almost none; allow subtle paper grain only",
+      "image_treatment": "Clean crop or discrete cutout; no excess AI effects",
+      "elements": [
+        "simple rectangular band",
+        "one alignment rule"
+      ]
+    },
+    "typography": {
+      "headline_style": "Oversized heavy sans, bold 1–3 line statements",
+      "body_style": "Compact legible neutral sans",
+      "hierarchy": "Headline first, image second, information third",
+      "max_text_density": "medium"
+    },
+    "copywriting": {
+      "voice": "Direct, specific and energetic",
+      "headline_guideline": "Use a short concrete phrase; break lines intentionally",
+      "cta_guideline": "One simple action if needed; never fabricate urgency"
+    }
+  },
+  "rules": {
+    "must": [
+      "Establish a strict baseline/alignment system",
+      "Use only one dominant accent color",
+      "Keep precise words out of generative image artifacts",
+      "Preserve product/subject features in the hero crop"
+    ],
+    "prefer": [
+      "High optical contrast",
+      "Simple strong crop",
+      "Few elements with intentional purpose"
+    ],
+    "avoid": [
+      "More than two unrelated type personalities",
+      "Random sticker-style decorations",
+      "Tiny low-contrast information"
+    ],
+    "adaptation": [
+      "If headline is long, reduce size and add line breaks while preserving margins",
+      "If the input image is visually busy, use a clean frame and flat background",
+      "If intended for mobile, make the primary title readable at thumbnail scale"
+    ]
+  },
+  "provenance": {
+    "kind": "original",
+    "rights": "original",
+    "source_url": null,
+    "confidence": 1,
+    "observations": [],
+    "inferences": [],
+    "notes": "Original illustrative starter genome; not learned from a third-party poster."
+  },
+  "created_at": "2026-11-09"
+}

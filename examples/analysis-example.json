@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "mode": "learn",
+  "reference": {
+    "description": "HYPOTHETICAL example: a dark portrait poster with one lit subject and an offset headline. No actual image was analyzed.",
+    "source_url": null,
+    "rights": "original",
+    "image_quality": "Hypothetical example only"
+  },
+  "inventory": [
+    {
+      "category": "hero portrait",
+      "approx_count": 1,
+      "location": "center-right",
+      "role": "focal subject"
+    },
+    {
+      "category": "headline block",
+      "approx_count": 1,
+      "location": "upper-left",
+      "role": "message"
+    }
+  ],
+  "observations": [
+    {
+      "dimension": "composition",
+      "claim": "Single dramatic subject and opposite-side headline",
+      "evidence": "Assumed in this synthetic teaching example, not a real image",
+      "certainty": "inferred"
+    },
+    {
+      "dimension": "typeface",
+      "claim": "Exact font unknown",
+      "evidence": "No editable font information or actual image supplied",
+      "certainty": "unknown"
+    }
+  ],
+  "design_logic": {
+    "hierarchy": "Hero → headline → support text",
+    "eye_path": "Subject then open-space headline",
+    "why_it_works": "Strong separation reduces competing visual targets; a design hypothesis, not empirically tested.",
+    "transferable_rules": [
+      "Keep one focal subject",
+      "Reserve a quiet zone for short text",
+      "Contrast subject and background"
+    ],
+    "limitations": [
+      "Does not fit long legal text or complex diagrams"
+    ]
+  },
+  "unknowns": [
+    "Actual colors",
+    "Exact font",
+    "Real source license"
+  ],
+  "candidate": {
+    "id": "synthetic-noir",
+    "summary": "A hypothetical editorial visual logic.",
+    "save_status": "not-requested"
+  }
+}
