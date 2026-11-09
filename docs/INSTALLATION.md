@@ -38,7 +38,10 @@ skills/poster-genome/
 ├── genomes/
 ├── schemas/
 ├── scripts/
-└── examples/
+├── examples/
+├── requirements-dev.txt
+├── requirements-render.txt
+└── LICENSE
 ```
 
 根目录没有另一个 `SKILL.md`。这样安装器发现的是**一套完整技能**，不是只拿到一个入口文件、却找不到引用的规则或脚本。格式遵循 [Agent Skills 规范](https://agentskills.io/specification)；命令行行为以 [Skills CLI 文档](https://github.com/vercel-labs/skills/blob/main/docs/commands.md) 为准。
@@ -46,7 +49,7 @@ skills/poster-genome/
 ## 安装后怎样检查？
 
 1. 运行 `npx skills list`，或在已选 Agent 对应的技能目录中检查是否存在 `poster-genome`。
-2. 检查安装目录中有没有 `SKILL.md` 和 `references/analysis-framework.md`、`genomes/cinematic-editorial.json`、`scripts/match_genomes.py`。
+2. 检查安装目录中有没有 `SKILL.md` 和 `references/analysis-framework.md`、`genomes/cinematic-editorial.json`、`scripts/match_genomes.py`、两个依赖清单以及许可证。
 3. 在能运行 Python 的 Agent 工作区中调用基因匹配脚本，或让 Agent 读取示例 JSON 并说明它选择哪一种基因。
 4. 再试一张已获授权的参考图：让 Agent 区分“观察、推断、未知”。若没有看图能力，这一步不能算通过。
 
