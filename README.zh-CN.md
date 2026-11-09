@@ -130,7 +130,7 @@ python scripts/taste_library.py feedback \
 | **个人审美反馈** | 用户自己的 ~/.poster-genome/index.json | 记录喜欢什么、不喜欢什么，决定优先选哪张参考 |
 | **本次源照片** | 用户上传或自行指定的位置 | 保持照片里的真实内容和数量，不自动进参考库 |
 
-例如，公开基因 playable-sky-editorial 的正式名称是 **playful-sky-editorial**；它保存的是单图记录卡、手绘线、字体反差等设计原理。每个用户可以给它关联不同的私人海报，让同一个基因产生不同的个人审美方向。
+例如，公开基因的正确名称是 **playful-sky-editorial**；它保存的是单图记录卡、手绘线、字体反差等设计原理。每个用户可以给它关联不同的私人海报，让同一个基因产生不同的个人审美方向。
 
 仓库现有 cinematic-editorial、bold-type-minimal、playful-sky-editorial、quiet-urban-editorial 等基因，不需要人人把真实图片提交公共仓库。第三方海报的原图权利仍属于其权利人。
 
