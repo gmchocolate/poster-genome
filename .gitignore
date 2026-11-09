@@ -12,3 +12,4 @@ output/
 outputs/
 private/
 *.tmp
+.poster-genome/
