@@ -97,6 +97,8 @@ def _reencode_without_metadata(path: Path) -> tuple[bytes, str]:
                 raise ValueError("Supported reference formats: JPEG, PNG or WebP")
             if source.width < 32 or source.height < 32:
                 raise ValueError("Reference image is too small (minimum 32 x 32)")
+            if source.width * source.height > 60_000_000:
+                raise ValueError("Reference image exceeds the safe size limit")
             picture = ImageOps.exif_transpose(source)
             transparent = picture.mode in ("RGBA", "LA") or "transparency" in picture.info
             out = io.BytesIO()
@@ -178,7 +180,11 @@ def choose_references(home: Path, *, genome: str | None = None,
     for ref in load_index(home)["references"]:
         if genome and genome.lower() not in ref.get("genome_ids", []):
             continue
+        if ref.get("rating", 3) < 3:
+            continue  # Disliked references should never influence automatic creation.
         match_tags = requested.intersection(ref.get("tags", []))
+        if requested and not match_tags:
+            continue
         score = 10 * len(match_tags) + 2 * ref.get("rating", 3)
         if genome:
             score += 40
@@ -196,6 +202,11 @@ def prepare_creation(home: Path, source_paths: list[Path], *,
         resolved = path.expanduser().resolve()
         if not resolved.is_file():
             raise ValueError(f"Source photo not found: {path}")
+        try:
+            with Image.open(resolved) as picture:
+                picture.verify()
+        except (OSError, UnidentifiedImageError, Image.DecompressionBombError) as exc:
+            raise ValueError(f"Content photo is not a readable image: {path}") from exc
         # Source images are not copied, retouched or sent anywhere by this CLI.
         sources.append({"role": "content", "path": str(resolved),
                         "preserve_identity_and_details": True})
