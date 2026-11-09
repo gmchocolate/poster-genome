@@ -41,6 +41,7 @@ skills/poster-genome/
 ├── examples/
 ├── requirements-dev.txt
 ├── requirements-render.txt
+├── requirements-library.txt
 └── LICENSE
 ```
 
@@ -49,7 +50,7 @@ skills/poster-genome/
 ## 安装后怎样检查？
 
 1. 运行 `npx skills list`，或在已选 Agent 对应的技能目录中检查是否存在 `poster-genome`。
-2. 检查安装目录中有没有 `SKILL.md` 和 `references/analysis-framework.md`、`genomes/cinematic-editorial.json`、`scripts/match_genomes.py`、两个依赖清单以及许可证。
+2. 检查安装目录中有没有 `SKILL.md` 和 `references/analysis-framework.md`、`genomes/cinematic-editorial.json`、`scripts/match_genomes.py`、三个依赖清单、私人图库工具以及许可证。
 3. 在能运行 Python 的 Agent 工作区中调用基因匹配脚本，或让 Agent 读取示例 JSON 并说明它选择哪一种基因。
 4. 再试一张已获授权的参考图：让 Agent 区分“观察、推断、未知”。若没有看图能力，这一步不能算通过。
 
@@ -68,3 +69,36 @@ skills/poster-genome/
 ## 验证范围
 
 GitHub Actions 使用 Skills CLI 检查仓库发现与本地安装目录中关键文件是否齐全；这属于**安装与文件结构测试**，不代表所有客户端的真实运行体验已通过，更不代表海报审美质量得到验证。
+
+
+## 使用个人本地参考图（v0.3）
+
+安装 Skill 只安装代码，**不会自动创建、收集、上传或同步私人图片**。在已安装技能目录运行：
+
+~~~bash
+python -m pip install -r requirements-library.txt
+python scripts/taste_library.py list
+~~~
+
+用户明确要求“把参考海报保存到本地图库”后，再执行：
+
+~~~bash
+python scripts/taste_library.py add \
+  --image "/absolute/path/to/reference.jpg" \
+  --genome playful-sky-editorial \
+  --like "大标题与手写字交错"
+~~~
+
+默认目录为运行机器上的 ~/.poster-genome/，可用 POSTER_GENOME_HOME 更改。它不在可更新的 Skill 文件夹里，也不提交公共 GitHub。参考图片重编码剥除 EXIF（包括嵌入的 GPS）。
+
+**远程 Grok Bot 等云端 Agent 不会自动把图片保存到你的电脑。** 如果它没有读写你电脑文件的权限，本地目录属于云端执行机器，而不是你的电脑。请使用本地 Agent，或你明确授权的私有持久化存储。
+
+检查实际要交给图像创作工具的内容图与风格图：
+
+~~~bash
+python scripts/taste_library.py prepare \
+  --source "/absolute/path/to/content.jpg" \
+  --genome playful-sky-editorial --top 2
+~~~
+
+返回的清单中包含真实本地图片路径，但**这一步尚未生图**。宿主必须真正打开或附加参考图与用户源图作为图像输入；只把文件路径写到提示词不是图片条件生成。参见 [参考图驱动创作](../skills/poster-genome/references/reference-first-workflow.md)。
