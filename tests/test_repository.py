@@ -85,6 +85,16 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(genome["provenance"]["rights"], "unknown")
         self.assertIsNone(genome["provenance"]["source_url"])
 
+    def test_quiet_urban_editorial_is_unapproved_draft(self):
+        path = SKILL_ROOT / "genomes" / "quiet-urban-editorial.json"
+        genome = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(genome["id"], "quiet-urban-editorial")
+        self.assertEqual(genome["version"], "0.1.0")
+        self.assertEqual(genome["status"], "draft")
+        self.assertEqual(genome["provenance"]["kind"], "reference-derived")
+        self.assertEqual(genome["provenance"]["rights"], "unknown")
+        self.assertIsNone(genome["provenance"]["source_url"])
+
     def test_sample_brief_does_not_fake_generation(self):
         example = json.loads((SKILL_ROOT / "examples/analysis-example.json").read_text(encoding="utf-8"))
         self.assertIn("HYPOTHETICAL", example["reference"]["description"])
