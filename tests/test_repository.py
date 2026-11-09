@@ -17,6 +17,8 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(found, [SKILL_ROOT / "SKILL.md"])
         for folder in ("references", "genomes", "schemas", "scripts", "examples"):
             self.assertTrue((SKILL_ROOT / folder).is_dir(), folder)
+        for file in ("LICENSE", "requirements-dev.txt", "requirements-render.txt"):
+            self.assertTrue((SKILL_ROOT / file).is_file(), file)
 
     def test_frontmatter_and_modes(self):
         skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
