@@ -1,10 +1,16 @@
-# Changelog
+# 变更记录
+
+## 0.2.0 — 2026-11-09
+
+- 将完整技能放进 `skills/poster-genome/`，让 `npx skills add gmchocolate/poster-genome` 能以单一技能目录安装所需参考资料、基因、脚本与示例。
+- 按 comprehensibility-zh 的 deep 模式重新组织中文主 Skill、六份参考文档、中文/英文 README 和贡献指南；保护事实、用户文案、命令与功能边界。
+- 新增安装说明、中文编辑原则和评估方法，区分静态检查、实际安装、Agent 行为和真实海报质量。
+- 补充仓库结构与安装契约的自动化验证。
 
 ## 0.1.0 — 2026-11-09
 
-- Agent Skill with learn, create, refine and library workflows
-- Structured analysis, creation brief and genome JSON contracts
-- Original starter genomes and deterministic ranking
-- Local validation, draft scaffolding, optional exact-text compositor and CI
+- Agent Skill 的学习、创作、修改和基因库流程。
+- 结构化分析、创作简报、JSON 设计基因与两套原创示例。
+- 离线匹配、结构校验、草稿生成和可选的精确文字叠加工具。
 
-This version does not bundle a vision or generative-image model.
+本项目始终不自带视觉模型或图像生成模型。

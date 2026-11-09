@@ -1,35 +1,84 @@
-# Contributing to Poster Genome
+# 贡献指南
 
-Help make reusable visual knowledge more specific, honest and useful.
+谢谢你愿意帮助 Poster Genome 学会更多**真正可复用的海报设计方法**。
 
-## Welcome contributions
+我们更欢迎“指出一个具体问题、解释为什么会影响设计或理解、提供能验证的改进”，而不是只提交“更高级”“更有感觉”的风格形容词。
 
-- Original genomes with explicit design reasons, adaptation rules and failure modes
-- Better analysis of composition, type, color and subject treatment
-- Chinese typography and layout guidance
-- Tests, opt-in image-generation integrations and visual review methods
+## 可以贡献什么？
 
-## Add a genome
+- **原创设计基因：** 有明确适用场景、构图方法、文字规则和不适用案例。
+- **真实的失败与反例：** 某类照片明明不适合某个基因，脚本却把它排在前面；或者原海报已经很好，修改反而变差。
+- **分析质量改进：** Agent 把“猜测的设计意图”当成“看得见的事实”，或把不可确定的字体名称说成确定结果。
+- **中文文案与排版：** 错字、断句、主副标题关系不清、必要信息被删、阅读顺序让人误解。
+- **安装兼容性记录：** 使用的工具、版本、完整命令、实际找到或漏掉的文件。
+- **可复现的脚本测试或评审方法：** 能说明检查的是“结构”“运行”还是“真实作品质量”。
 
-1. Compare with existing genomes to avoid near duplicates.
-2. After the user's approval, scaffold a draft:
+## 提 Issue 或 PR，请说清这七件事
 
-   ```bash
-   python scripts/new_genome.py --id new-design-dna --title "My style" --summary "What makes this useful"
-   ```
+1. **目标用户：** 谁会用？普通用户、设计师、开源贡献者还是某种 Agent？
+2. **原始材料和位置：** 对应仓库文件、命令、海报问题或设计场景。只提交有权公开的内容。
+3. **存在的问题：** 用户会在哪里看不懂、用错、设计失败，或错误地相信某个结论？
+4. **你建议怎么改：** 给出具体做法，并解释为什么比现状更可靠。
+5. **必须保留什么：** 原图身份、原文、数字、尺寸、适用条件、版本字段、命令、接口、来源及限制。
+6. **哪些情况不要改：** 给出反例，避免把个人审美偏好写成所有海报都必须遵守的规则。
+7. **怎样验证：** 你用的 Agent/模型、版本、提示词、脚本、素材条件和人工检查结果。没测试就写“未验证”。
 
-3. Replace every `REPLACE` placeholder, document what source images suit it, record provenance and set `active` only after review.
-4. Run the JSON Schema validation and unit tests; add a matching case if the style differs meaningfully.
-5. Explain the compositional *reason* and an example of where the genome fails.
+请尽量附上最小可复现步骤，不要用“我感觉更好看”代替依据。
 
-## Rights and privacy
+## 新增一个设计基因的流程
 
-Do not commit unlicensed third-party posters, source photos, brand assets, paid fonts, watermarked images, identifiable personal photos, private briefs or credentials. Only contribute content you can license under MIT or explicitly clarify exceptions without committing restricted files.
+首先比较现有基因：新提案真的解决了不同场景吗？如果只是改了一种颜色，优先考虑扩展或变体，而不是复制一整份相似文件。
 
-## Pull request checklist
+经用户或维护者批准后，在仓库根目录执行：
 
-- [ ] File name equals `id` and semantic version is intentional
-- [ ] Source, rights and certainty are recorded honestly
-- [ ] Three or more actionable rules and a meaningful failure mode
-- [ ] Both scripts and tests pass locally
-- [ ] No extra private photos or fonts
+```bash
+python skills/poster-genome/scripts/new_genome.py \
+  --id quiet-editorial \
+  --title "留白叙事" \
+  --summary "让单一主体和短标题相互呼应"
+```
+
+脚本会在 `skills/poster-genome/genomes/` 生成 **draft 草稿**。请逐项补全 `REPLACE` 占位符、适用主体、画布比例、文字密度、边界、至少三条具体规则和一个失败案例；核对来源及权利后再考虑设为 `active`。
+
+### 怎样说明“学到了什么”？
+
+不建议：**“这张海报很有高级感，采用柔光。”**
+
+建议：**“主体占据右半边，左侧留给短标题；暗背景和亮主体形成对比。适合主角清楚、文字较少的图片；长篇活动说明会挤压标题空间。”**
+
+第二种说法能让别人知道怎样复用，也能知道什么时候不该用。
+
+## 修改文件之前，先看谁说了算
+
+| 文件 | 负责什么 |
+| --- | --- |
+| [Skill 入口](skills/poster-genome/SKILL.md) | Agent 的执行流程与事实、版权、工具能力底线 |
+| [六份参考指南](skills/poster-genome/references/analysis-framework.md) | 分析、提问、选型、创作、质量与权利的具体方法 |
+| [JSON Schema](skills/poster-genome/schemas/genome.schema.json) | 设计基因和示例必须满足的字段约束 |
+| [测试](tests/test_repository.py) | 结构、路径、模式、样例和安装契约检查 |
+| [评估方法](docs/EVALUATION.md) | 什么算实际验证，哪些结论暂不能声称 |
+| [README](README.zh-CN.md) | 对新用户的介绍与安装入口，不复制所有规则 |
+
+更改 Skill 规则时，同步检查参考文档、示例、脚本、链接和测试。**不要为了让文章更短而改坏命令、JSON 字段、精确文案或授权边界。**
+
+## 提交前运行
+
+```bash
+python -m pip install -r requirements-dev.txt
+python skills/poster-genome/scripts/validate_library.py
+python -m unittest discover -s tests -v
+```
+
+如果修改了安装结构，可另用以下命令检查安装器是否发现技能：
+
+```bash
+npx skills add gmchocolate/poster-genome --list
+```
+
+GitHub Actions 会执行结构测试与安装检查，但**不会真正观察所有用户的海报，也不会证明设计效果或理解效率提升**。涉及审美、可读性或视觉保真时，请补充真实图片和人工评审记录，并如实写明样本数和限制。
+
+## 安全、版权与许可证
+
+不要上传客户内部资料、私人照片、真实聊天、未授权海报、付费字体、商标素材、账号信息或敏感图像。需要讨论第三方作品时，优先提交自己写的**设计观察与规则**，不复制原始图片。未经验证的效果指标不能包装成实验结果。
+
+仓库的原创代码与文档采用 [MIT License](LICENSE)；贡献应具备相容授权。第三方素材仍归其权利人，不能因放进仓库就自动取得 MIT 授权。

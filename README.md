@@ -1,65 +1,79 @@
 # Poster Genome 🧬
 
-[![Validate Poster Genome](https://github.com/gmchocolate/poster-genome/actions/workflows/validate.yml/badge.svg)](https://github.com/gmchocolate/poster-genome/actions/workflows/validate.yml)
+**Learn *why* a great poster works. Reuse the principles to create something original.**
 
-**Learn the design DNA of great posters. Create original posters from your own images.**
+Poster Genome is an open-source [Agent Skill](https://agentskills.io/specification) for analyzing reference posters, extracting reusable design rules (called **genomes**), and making new posters from user-provided images. It guides agents through source analysis, a short creative brief, genome selection, composition, real image-tool use and quality review.
 
-[简体中文](README.zh-CN.md) · [Agent Skills specification](https://agentskills.io/specification)
+It is **not** a hosted poster generator and does not include its own vision or image-generation model.
 
-Poster Genome is an open-source **Agent Skill**, not a hosted image-generation service. Give a vision-capable AI a poster reference and it will analyze its visual language, explain the design decisions, and propose a reusable, structured **genome**. Give it an image to create with and it will ask only the essential questions, match a genome, plan an original composition, generate using available image tools, and review the result.
+[简体中文](README.zh-CN.md) · [Skill instructions](skills/poster-genome/SKILL.md) · [Contributing](CONTRIBUTING.md)
 
-> **Design principles, not pixel cloning.** Respect authors' rights, brand assets, people and exact user-provided text.
+## Install
 
-## Workflows
-
-| Mode | Input | Output |
-| --- | --- | --- |
-| **Learn** | Reference poster image | Deep visual analysis, evidence/uncertainty, proposed reusable genome |
-| **Create** | Source photo/image and optional brief | Focused questions, ranked genomes, composition plan and poster when an image tool is available |
-| **Refine** | Draft poster and feedback | Quality review, focused iteration, deliverables |
-| **Library** | JSON genomes | Validated, searchable, versioned style knowledge |
-
-## Quick start
-
-Install as an [Agent Skill](https://agentskills.io/specification) in a compatible AI agent. For a portable local installation:
+Requires a supported agent and a suitable Node.js version (the current skills CLI documents Node.js **22.20+**).
 
 ```bash
-git clone https://github.com/gmchocolate/poster-genome.git
-mkdir -p ~/.agents/skills
-ln -s "$(pwd)/poster-genome" ~/.agents/skills/poster-genome
+npx skills add gmchocolate/poster-genome
 ```
 
-On platforms that use a different skills directory, copy or link the whole `poster-genome` directory there. Restart or rescan the agent if required.
+Choose your target agent interactively. Other options:
 
-**Prompts:**
-- "Use poster-genome to learn the design DNA of this poster. Show the analysis before saving a reusable genome."
-- "Use poster-genome to create a 4:5 poster with this photo. Ask only what you need to know."
-- "Use poster-genome to review this poster, explain its weaknesses and improve it without changing my exact headline."
-
-**Library tools (Python 3.10+):**
 ```bash
-python scripts/match_genomes.py --subject person --intent editorial --mood cinematic --ratio 4:5
+npx skills add gmchocolate/poster-genome --list   # discover without installing
+npx skills add gmchocolate/poster-genome -g       # install globally
+```
+
+The complete distributable lives at **`skills/poster-genome/`**, including references, schemas, examples, scripts and genomes. This structure lets the installer copy the skill's required files instead of picking up only a repository-root `SKILL.md`. See [installation details](docs/INSTALLATION.md) for verification and limitations.
+
+## Try it
+
+**Learn from a reference image:**
+
+> Use poster-genome to analyze this reference poster. Explain its visual hierarchy, materials, typography and why the design choices may work. Propose reusable rules, but don't copy the composition or save the reference without my permission.
+
+**Create from a photo:**
+
+> Use poster-genome to turn this photo into a 4:5 birthday poster. The exact headline is “生日快乐”. Choose a suitable visual genome and ask only necessary questions.
+
+**Improve a draft:**
+
+> Keep the people, approved copy and aspect ratio; fix the cramped layout and make the headline legible.
+
+### What the skill does
+
+1. **Observe:** inventory visible materials and text, mark what is inferred or unknown.
+2. **Explain:** connect specific visual evidence to design decisions and failure cases.
+3. **Extract:** propose 3–8 reusable rules in a versioned JSON genome, with user approval before saving.
+4. **Adapt:** inspect a new photo, ask at most three consequential questions, match a genome and plan a new composition.
+5. **Create and review:** use real tools when available; verify exact text, source identity, cropping and output quality.
+
+A matching score is a heuristic for selecting relevant genomes, **not a validated measure of beauty**.
+
+## Project structure
+
+- [Skill entrypoint](skills/poster-genome/SKILL.md): the agent's authoritative workflow.
+- [References](skills/poster-genome/references/analysis-framework.md): focused design and review guidance in Chinese.
+- [Genomes](skills/poster-genome/genomes/cinematic-editorial.json): original starter design-rule packs.
+- [Schemas](skills/poster-genome/schemas/genome.schema.json): machine-readable contracts.
+- [Examples](skills/poster-genome/examples/README.md): synthetic examples, no redistributed third-party posters.
+- [Contributor guide](CONTRIBUTING.md): what to include in issues and pull requests.
+- [Evaluation boundaries](docs/EVALUATION.md): what automated checks do *not* establish.
+
+## Developer quick start
+
+Python 3.10+:
+
+```bash
 python -m pip install -r requirements-dev.txt
-python scripts/validate_library.py
+python skills/poster-genome/scripts/validate_library.py
 python -m unittest discover -s tests -v
+python skills/poster-genome/scripts/match_genomes.py --input skills/poster-genome/examples/brief-example.json --top 2
 ```
 
-The match CLI is deterministic and works offline. For a simple exact-text composition over existing artwork, use `scripts/overlay_text.py` with Pillow and a licensed font (see [examples](examples/README.md)). Vision analysis and image generation rely on capabilities of the host agent. The included starter genomes are **illustrative original examples**, not extracted from copyrighted work. See [Chinese guide](README.zh-CN.md) for the complete design philosophy and workflows.
+For a basic deterministic copy overlay on existing art, `scripts/overlay_text.py` inside the skill accepts a user-provided licensed font and requires Pillow. **This is not an image-generation model.**
 
-## Project map
+## Rights, limits and trust
 
-- [SKILL.md](SKILL.md): concise skill instructions and routing
-- [references/](references/): learn, selection, conversation, creation, QA and provenance rules
-- [genomes/](genomes/): independent, versionable visual genomes
-- [schemas/](schemas/): machine-readable JSON contracts
-- [scripts/](scripts/): genome matching and validation
-- [examples/](examples/): example input and outputs
-- [CONTRIBUTING.md](CONTRIBUTING.md): contribution rules
+Analyze visual design methods rather than reproducing distinctive third-party artwork. Do not upload private source photos, fonts or unlicensed posters into this public repository. Actual image analysis and rendering depend on host capabilities. Automated checks test structure, examples and install packaging; they do not prove visual quality or human comprehension gains.
 
-## Capabilities & limits
-
-Poster Genome is **model/tool agnostic**. It does not ship a vision model, image renderer, font files or secret API keys. The agent must actually have image inspection/generation tools to complete visual steps; otherwise it returns a specific composition specification instead of claiming an image was generated. Exact text and logos should be overlaid in a deterministic editing step when supported. User approval is required before adding a learned genome to the shared library.
-
-## License
-
-MIT for repository code and documentation, except any separately licensed contributed references; contributors must have rights to the material they submit. See [LICENSE](LICENSE).
+Original code and documentation are under [MIT](LICENSE); third-party media retains its own rights.
