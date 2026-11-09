@@ -71,9 +71,19 @@ class RepositoryTests(unittest.TestCase):
         self.assertIn("bold-type-minimal", ids)
         for item in genomes:
             with self.subTest(id=item["id"]):
-                self.assertEqual(item["status"], "active")
+                self.assertIn(item["status"], ("active", "draft", "deprecated"))
                 self.assertGreaterEqual(len(item["rules"]["must"]), 3)
                 self.assertTrue(item["rules"]["avoid"])
+
+    def test_reference_derived_genome_remains_draft(self):
+        path = SKILL_ROOT / "genomes" / "playful-sky-editorial.json"
+        genome = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(genome["id"], "playful-sky-editorial")
+        self.assertEqual(genome["version"], "0.1.0")
+        self.assertEqual(genome["status"], "draft")
+        self.assertEqual(genome["provenance"]["kind"], "reference-derived")
+        self.assertEqual(genome["provenance"]["rights"], "unknown")
+        self.assertIsNone(genome["provenance"]["source_url"])
 
     def test_sample_brief_does_not_fake_generation(self):
         example = json.loads((SKILL_ROOT / "examples/analysis-example.json").read_text(encoding="utf-8"))
