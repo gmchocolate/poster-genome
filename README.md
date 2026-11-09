@@ -1,79 +1,118 @@
-# Poster Genome 🧬
+# Poster Genome 🧬 — Build your own visual taste library
 
-**Learn *why* a great poster works. Reuse the principles to create something original.**
+**Stop relying on style adjectives alone. Learn from posters you actually love, save their images privately, and bring those real images into your next creative task.**
 
-Poster Genome is an open-source [Agent Skill](https://agentskills.io/specification) for analyzing reference posters, extracting reusable design rules (called **genomes**), and making new posters from user-provided images. It guides agents through source analysis, a short creative brief, genome selection, composition, real image-tool use and quality review.
+Poster Genome is an [Agent Skill](https://agentskills.io/specification), not a standalone image generator. It combines two things:
 
-It is **not** a hosted poster generator and does not include its own vision or image-generation model.
+1. **Genomes:** reusable design principles bundled in the open-source skill.
+2. **Personal Taste Library:** each user's private, on-device copies of their chosen style references, with preference annotations.
 
-[简体中文](README.zh-CN.md) · [Skill instructions](skills/poster-genome/SKILL.md) · [Contributing](CONTRIBUTING.md)
+A capable image agent can look at a reference poster, explain what makes it effective, save it locally with the user's permission, then use **the real reference image** alongside the user's new photo when generating a poster.
+
+[简体中文](README.zh-CN.md) · [Skill instructions](skills/poster-genome/SKILL.md) · [Personal library](skills/poster-genome/references/personal-taste-library.md) · [Contributing](CONTRIBUTING.md)
 
 ## Install
 
-Requires a supported agent and a suitable Node.js version (the current skills CLI documents Node.js **22.20+**).
-
-```bash
+~~~bash
 npx skills add gmchocolate/poster-genome
-```
+~~~
 
-Choose your target agent interactively. Other options:
+For a global install, add -g. Discover first without installing:
 
-```bash
-npx skills add gmchocolate/poster-genome --list   # discover without installing
-npx skills add gmchocolate/poster-genome -g       # install globally
-```
+~~~bash
+npx skills add gmchocolate/poster-genome --list
+~~~
 
-The complete distributable lives at **`skills/poster-genome/`**, including references, schemas, examples, scripts and genomes. This structure lets the installer copy the skill's required files instead of picking up only a repository-root `SKILL.md`. See [installation details](docs/INSTALLATION.md) for verification and limitations.
+The installable skill lives at skills/poster-genome/. The host must support reading files and images to deliver reference-first creation. Image generation depends on the host's available tools.
 
-## Try it
+## Learn and save visual references locally
 
-**Learn from a reference image:**
+Tell a vision-capable agent:
 
-> Use poster-genome to analyze this reference poster. Explain its visual hierarchy, materials, typography and why the design choices may work. Propose reusable rules, but don't copy the composition or save the reference without my permission.
+> Analyze this poster deeply. Explain the hierarchy, typography, image treatment, spacing and visual rhythm. Save the actual reference image to my **private local Poster Genome library** with a note about what I like. Do not commit the image to GitHub.
 
-**Create from a photo:**
+In the installed skill directory, install the optional image-library requirement:
 
-> Use poster-genome to turn this photo into a 4:5 birthday poster. The exact headline is “生日快乐”. Choose a suitable visual genome and ask only necessary questions.
+~~~bash
+python -m pip install -r requirements-library.txt
+~~~
 
-**Improve a draft:**
+Then explicitly add a reference (the CLI only runs on your own machine or the host executing the agent):
 
-> Keep the people, approved copy and aspect ratio; fix the cramped layout and make the headline legible.
+~~~bash
+python scripts/taste_library.py add \
+  --image "/path/to/inspiration.jpg" \
+  --title "Editorial scrapbook" \
+  --genome playful-sky-editorial \
+  --tag everyday --tag typography \
+  --like "expressive bold headline plus handwritten accent" \
+  --avoid "original artwork branding and fictitious photo metadata" \
+  --rating 5
+~~~
 
-### What the skill does
+Your private library lives at ~/.poster-genome/ by default (or set POSTER_GENOME_HOME). Saved images are re-encoded to strip EXIF metadata, including embedded location data. Uploading an image for one task does **not** automatically authorize persistent saving.
 
-1. **Observe:** inventory visible materials and text, mark what is inferred or unknown.
-2. **Explain:** connect specific visual evidence to design decisions and failure cases.
-3. **Extract:** propose 3–8 reusable rules in a versioned JSON genome, with user approval before saving.
-4. **Adapt:** inspect a new photo, ask at most three consequential questions, match a genome and plan a new composition.
-5. **Create and review:** use real tools when available; verify exact text, source identity, cropping and output quality.
+## Create from actual references and your own photos
 
-A matching score is a heuristic for selecting relevant genomes, **not a validated measure of beauty**.
+Example request:
 
-## Project structure
+> Use my saved playful scrapbook-style posters to create a new poster featuring **both** photos I uploaded. Keep both children recognizable and preserve their clothing. Do not invent camera data, dates or temperatures.
 
-- [Skill entrypoint](skills/poster-genome/SKILL.md): the agent's authoritative workflow.
-- [References](skills/poster-genome/references/analysis-framework.md): focused design and review guidance in Chinese.
-- [Genomes](skills/poster-genome/genomes/cinematic-editorial.json): original starter design-rule packs.
-- [Schemas](skills/poster-genome/schemas/genome.schema.json): machine-readable contracts.
-- [Examples](skills/poster-genome/examples/README.md): synthetic examples, no redistributed third-party posters.
-- [Contributor guide](CONTRIBUTING.md): what to include in issues and pull requests.
-- [Evaluation boundaries](docs/EVALUATION.md): what automated checks do *not* establish.
+The agent selects 1–3 locally stored reference images, *views them*, and attaches the reference files and the user's content photos as distinct image roles when the host supports multimodal generation.
 
-## Developer quick start
+Prepare a real-image attachment manifest:
+
+~~~bash
+python scripts/taste_library.py prepare \
+  --source "/path/to/first-photo.jpg" \
+  --source "/path/to/second-photo.jpg" \
+  --genome playful-sky-editorial \
+  --tag portrait \
+  --headline "A day together" \
+  --top 2
+~~~
+
+This returns separate content_images and style_reference_images with absolute local file paths, taste annotations, preservation rules and explicit attachment requirements.
+
+**A manifest is not a model invocation.** An agent must truly open or attach the image bytes using the host's supported tools. Sending file paths or a verbal style summary as text does not count as image-conditioned creation.
+
+If the host cannot access the images or cannot pass more than one image to generation, the agent must say so and use a supported fallback (such as reference-aware artwork plus deterministic layout of the original photos) without claiming unsupported capabilities.
+
+## Build up your taste over time
+
+~~~bash
+python scripts/taste_library.py list
+python scripts/taste_library.py select --genome playful-sky-editorial --top 2
+python scripts/taste_library.py feedback \
+  --id ref-xxxxxxxxxxxxxxxxxxxx \
+  --like "asymmetric title" --avoid "fictitious photo details" --rating 5
+~~~
+
+Reference retrieval initially uses explicit tags, genome associations and personal ratings; this is *not* image-vector search or model training. Feedback updates the private record only when the user has authorized it.
+
+## Repo vs. personal data
+
+| Item | Location |
+| --- | --- |
+| Generic design genomes and scripts | Public repo and installed skill |
+| Reference image bytes | Private ~/.poster-genome/images/ |
+| Taste annotations, ratings and exclusions | Private ~/.poster-genome/index.json |
+| New content photos | Wherever the user provided them; never auto-saved as style references |
+
+A cloud-hosted agent that cannot access the user's computer **cannot claim to write to their local computer**. The user must use a local agent, or explicitly choose a separate private persistent environment. This project offers no automatic cloud synchronization.
+
+## Development and tests
 
 Python 3.10+:
 
-```bash
-python -m pip install -r requirements-dev.txt
+~~~bash
+python -m pip install -r skills/poster-genome/requirements-dev.txt
 python skills/poster-genome/scripts/validate_library.py
 python -m unittest discover -s tests -v
-python skills/poster-genome/scripts/match_genomes.py --input skills/poster-genome/examples/brief-example.json --top 2
-```
+~~~
 
-For a basic deterministic copy overlay on existing art, `scripts/overlay_text.py` inside the skill accepts a user-provided licensed font and requires Pillow. **This is not an image-generation model.**
+Tests cover script behavior, image metadata stripping, local path protection, documented install packaging and JSON contracts. They do *not* verify the subjective design quality of multimodal output.
 
-## Rights, limits and trust
+See [reference-first workflow](skills/poster-genome/references/reference-first-workflow.md), [installation notes](docs/INSTALLATION.md), [evaluation boundaries](docs/EVALUATION.md) and [contributions](CONTRIBUTING.md).
 
-Analyze visual design methods rather than reproducing distinctive third-party artwork. Do not upload private source photos, fonts or unlicensed posters into this public repository. Actual image analysis and rendering depend on host capabilities. Automated checks test structure, examples and install packaging; they do not prove visual quality or human comprehension gains.
-
-Original code and documentation are under [MIT](LICENSE); third-party media retains its own rights.
+Original project code and documentation are [MIT licensed](LICENSE). Third-party reference images are not covered by this license; do not redistribute other people's artwork without permission.
