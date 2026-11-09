@@ -1,134 +1,159 @@
-# Poster Genome｜海报基因 🧬
+# Poster Genome 🧬｜让 AI 学会你喜欢的海报
 
-**喜欢一张海报，不只要学它长什么样，更要学会它为什么这样设计。**
+**不是让 AI 凭一句“高级感”自由发挥，而是先存下你真正喜欢的参考海报，再带着这些真实图片去创作。**
 
-Poster Genome 是一套开源的 **Agent Skill（供 AI 助手执行的技能说明）**。你给它一张喜欢的海报，它会分析素材、布局、色彩、字体、文案和阅读顺序，并把其中能复用的方法整理成“设计基因”。之后，你上传自己的照片，它会挑选适合的基因、问少量必要问题，再指导具有生图能力的 AI 创作原创海报。
+Poster Genome 是开源 [Agent Skill](https://agentskills.io/specification)。你可以上传喜欢的海报，让 AI 看图分析它为什么好看，经你同意后将**原始参考图和你的审美偏好保存在运行环境本地**。之后你上传自己的照片，Agent 会选出适合的参考原图和设计基因，把它们一起提供给具有图像输入能力的创作工具。
 
-它不是一个独立的网站，也不自带生图模型。实际看图、生图和修图能力取决于使用它的 AI 客户端。
+**本项目不自带视觉模型、生图模型或云端同步服务。** 视觉学习与生成质量依赖宿主 Agent 的实际工具。
 
-[English](README.md) · [Skill 本体](skills/poster-genome/SKILL.md) · [贡献指南](CONTRIBUTING.md)
+[English](README.md) · [Skill 主指令](skills/poster-genome/SKILL.md) · [个人图库使用指南](skills/poster-genome/references/personal-taste-library.md) · [贡献指南](CONTRIBUTING.md)
 
-## 一分钟安装
+## 一、安装技能
 
-在项目目录中运行：
-
-```bash
+~~~bash
 npx skills add gmchocolate/poster-genome
-```
+~~~
 
-安装器会发现名为 **`poster-genome`** 的技能，并让你选择要安装到哪个 AI Agent。想在所有项目里使用，可加 `-g`：
+全局使用：
 
-```bash
+~~~bash
 npx skills add gmchocolate/poster-genome -g
-```
+~~~
 
-只想先检查能找到哪些技能，不安装：
+查看能发现什么：
 
-```bash
+~~~bash
 npx skills add gmchocolate/poster-genome --list
-```
+~~~
 
-安装器需要符合其版本要求的 Node.js（当前官方说明为 **22.20 或以上**）。不同客户端是否会自动载入技能，要以其实际行为为准。完整步骤、检查方法和常见问题见 [安装指南](docs/INSTALLATION.md)。
+安装后，在支持该 Skill 的 Agent 对话中说：“用 poster-genome 学习这张海报”。详细环境要求见 [安装指南](docs/INSTALLATION.md)。
 
-## 我可以用它做什么？
+## 二、第一次使用：添加你喜欢的真实参考海报
 
-### 1. 学习一张优秀海报
+把一张喜欢的海报交给有看图能力的 Agent，并说：
 
-上传一张你喜欢的海报，然后说：
+> 深入分析这张海报的构图、字体、图片、留白和细节。尤其告诉我哪些设计方法值得复用。**学习完把这张图片和我的喜好一起保存到我的本地 Taste Library。** 不要把它上传 GitHub。
 
-> 用 poster-genome 学习这张海报。先告诉我主要元素有哪些、观众会先看哪里、颜色和字体为什么这样搭配。请把真正可复用的设计方法整理成候选基因，不要直接照搬，也先不要保存到仓库。
+Agent 在能访问图片和本地文件、获得你明确授权的前提下，可以调用私人图库 CLI。先在**安装后的技能目录**安装图片处理依赖：
 
-它会按这个顺序回答：
+~~~bash
+python -m pip install -r requirements-library.txt
+~~~
 
-1. **看到什么：** 人物、物品、背景、装饰、文字的数量与位置；看不清的地方明确标注。
-2. **怎样组织：** 主体和文字的主次、观看顺序、构图、留白、配色和画面质感。
-3. **为什么可能有效：** 用具体画面证据解释设计判断，不只说“高级”或“有冲击力”。
-4. **能学走什么：** 总结 3–8 条可迁移规则，说明什么素材适合、什么情况会失效。
-5. **要不要保存：** 显示候选名称和差异，得到你批准才加入基因库。
+然后添加图片：
 
-例如，看到“亮色商品 + 安静深色背景”，它会提炼“用明暗差别突出单一主角”，而不是把商品、标题与背景位置全部原样复制。
+~~~bash
+python scripts/taste_library.py add \
+  --image "/path/to/reference.jpg" \
+  --title "摄影手账风" \
+  --genome playful-sky-editorial \
+  --tag editorial \
+  --like "粗体标题与小手写字错落穿插" \
+  --like "主图之外大面积米色留白" \
+  --avoid "原设计师独特LOGO及完整版面复制" \
+  --rating 5
+~~~
 
-### 2. 用自己的照片创作海报
+每个安装者都拥有**独立的本地图库**：
 
-上传照片后说：
+~~~text
+~/.poster-genome/
+├── index.json              # 每张图的名字、标签、审美偏好与评分
+└── images/                 # 保存下来的真实参考图片（移除 EXIF 元信息）
+~~~
 
-> 用 poster-genome 给这张照片做生日海报。祝福语是「祝奶奶生日快乐」，发朋友圈用。其他你来决定，只问我真正缺少的信息。
+这不是远程服务；不会自动把图片发到 GitHub。图库不会随着重新安装 Skill 而被覆盖。
 
-它会先检查照片里的主体和可裁切空间，再选择合适的设计基因。如果缺少的信息会影响作品，通常只问“做给谁、必须写什么、用在哪里”这类问题。
+**注意：** “本地”指 Agent 的 CLI 实际运行位置。如果你在没有电脑文件访问权限的云端 Grok Bot 中使用，Bot 无法仅靠这条指令把图直接保存到你的电脑。需要能够访问你本机的 Agent，或你明确授权的私有持久化环境。
 
-选好风格后，先规划主体位置、文字区、颜色和层次，然后使用客户端真实可用的生图或修图工具制作。生成后检查文字、人物、裁切和画面质量。
+## 三、下次创作时，真的使用参考图片
 
-**如果客户端没有生图工具：** 它会给你清晰的制作方案和提示词，不会假装已经生成了图片。
+比如你上传两张宝宝照片，说：
 
-### 3. 修改一张已经做好的海报
+> 用我风格库里收藏的摄影手账海报，做一张双宝出行日记。**两张照片都必须用上，宝宝面容保持真实。** 不要编造拍摄时间和相机参数。
 
-> 保留人物、标题和颜色方向，只修复排版拥挤、文字不清楚的问题。
+新版执行路径是：
 
-Skill 会先区分**硬错误**（错字、主体变形、内容漏写）和**审美偏好**（更简约、更明亮），再针对问题修改，不为了“显得专业”随意重做。
+<escape>用户源照片 → 匹配设计基因 → 找到个人图库中的 1–3 张真实参考海报 → 实际将两类图像送入支持多图的创作工具 → 核对成品 → 收集用户反馈</escape>
 
-## 为什么要有“设计基因库”？
+Agent 可调用本地脚本生成**输入清单**：
 
-每次只模仿一张参考图，换了主体、用途或文案就容易失效。设计基因保存的是**可调整的规则**，不是固定模板。
+~~~bash
+python scripts/taste_library.py prepare \
+  --source "/path/to/baby-blue.jpg" \
+  --source "/path/to/baby-pink.jpg" \
+  --genome playful-sky-editorial \
+  --tag portrait \
+  --headline "双宝出行日记" \
+  --top 2
+~~~
 
-例如，`cinematic-editorial` 记录人物电影感海报的主体对比、光线、留白和短文案安排；`bold-type-minimal` 则强调强烈的标题、简洁形状和严格的对齐。两者只是演示数据，均为原创示例，尚不代表对真实用户偏好的验证。
+清单严格区分：
 
-每份基因都记录适用的主体、用途、比例，以及什么情况下可能不合适。你后续上传参考海报，可以不断增添或改进基因，但要**先看差异、再决定是否保存**。
+- **content_images**：用户本次的真实照片。负责人物、数量、服装、商品、原始内容的保真。
+- **style_reference_images**：你收藏的参考海报。负责字体、色彩、版式节奏和装饰语言，不能取代真实主体。
+- **genome_id**：文字化的设计方法及适用边界。
+- **constraints**：重要事实、文字和素材不能乱改。
+- **attachment_required**：要求 Agent **真正读取/附加**参考图片，而不只是把文件路径写进 Prompt。
 
-## 项目结构：从哪里开始看？
+CLI 只准备清单，不是生图引擎。**能否实际使用多张图，仍取决于宿主是否支持图像输入和文件访问**。如果它只能处理文字，就不能声称已经根据参考原图生成。
 
-```text
-poster-genome/
-├── README.md / README.zh-CN.md    # 介绍与使用方法
-├── CONTRIBUTING.md                # 贡献和评审要求
-├── docs/                          # 安装、改写方法与评估边界
-├── skills/
-│   └── poster-genome/             # 实际被 npx skills 安装的完整技能
-│       ├── SKILL.md               # Agent 的执行入口
-│       ├── references/            # 六份按需阅读的设计方法
-│       ├── genomes/               # 可积累、可选择的设计基因
-│       ├── schemas/               # JSON 数据格式
-│       ├── scripts/               # 匹配、校验、新建与文字合成
-│       └── examples/              # 不含第三方版权图片的示例
-├── tests/                         # 本地静态测试
-└── .github/workflows/             # GitHub 自动检查
-```
+完整执行标准见 [Reference-First 创作流程](skills/poster-genome/references/reference-first-workflow.md)。
 
-想知道 AI **必须如何做**，读 [SKILL.md](skills/poster-genome/SKILL.md)；想知道某条分析为什么合理，读对应的 `references/`；想参与开源，读 [贡献指南](CONTRIBUTING.md)。
+## 四、越用越懂你的 Taste
 
-## 需要维护基因库时
+保存的参考图可以按风格或标签找：
 
-本地脚本需要 Python 3.10+。在仓库根目录执行：
+~~~bash
+python scripts/taste_library.py list
+python scripts/taste_library.py select --genome playful-sky-editorial --top 2
+~~~
 
-```bash
-python -m pip install -r requirements-dev.txt
+如果做出一张图，你觉得“大字和黄色手写字很有感觉，但是虚构相机参数很差”，在用户同意后，Agent 可以将这条反馈写入相关参考记录：
+
+~~~bash
+python scripts/taste_library.py feedback \
+  --id ref-xxxxxxxxxxxxxxxxxxxx \
+  --rating 5 \
+  --like "大字与黄色手写字的错落节奏" \
+  --avoid "未经核实的摄影参数"
+~~~
+
+这是一套**个人审美记忆**，不是“点赞一次就能微调模型权重”。初版检索使用标签、风格关联和用户评分进行排序；要让图片真正被参考，仍必须在创作时读取、附加图片。
+
+## 五、公开基因库与个人图库有什么区别？
+
+| 内容 | 保存在哪里 | 能做什么 |
+| --- | --- | --- |
+| **公开设计基因** | 安装技能内的 genomes/，代码仓库中也有 | 保存通用设计原理、限制和适配方式 |
+| **个人真实参考海报** | 用户自己的 ~/.poster-genome/images/ | 让 AI 实际参考你喜欢的图片审美 |
+| **个人审美反馈** | 用户自己的 ~/.poster-genome/index.json | 记录喜欢什么、不喜欢什么，决定优先选哪张参考 |
+| **本次源照片** | 用户上传或自行指定的位置 | 保持照片里的真实内容和数量，不自动进参考库 |
+
+例如，公开基因 playable-sky-editorial 的正式名称是 **playful-sky-editorial**；它保存的是单图记录卡、手绘线、字体反差等设计原理。每个用户可以给它关联不同的私人海报，让同一个基因产生不同的个人审美方向。
+
+仓库现有 cinematic-editorial、bold-type-minimal、playful-sky-editorial、quiet-urban-editorial 等基因，不需要人人把真实图片提交公共仓库。第三方海报的原图权利仍属于其权利人。
+
+## 六、开发和测试
+
+Python 3.10+，在仓库根目录运行：
+
+~~~bash
+python -m pip install -r skills/poster-genome/requirements-dev.txt
 python skills/poster-genome/scripts/validate_library.py
 python -m unittest discover -s tests -v
-```
+python skills/poster-genome/scripts/match_genomes.py --input skills/poster-genome/examples/brief-example.json --top 2
+~~~
 
-查询适合人像、编辑叙事、电影感、4:5 竖版的基因：
+这些测试可以检查 JSON Schema、脚本、私人图库去除 EXIF、选择规则、安装文件完整性等；**不会调用图像大模型，也不会证明任意一张参考图一定带来更好的审美结果**。
 
-```bash
-python skills/poster-genome/scripts/match_genomes.py --subject person --intent editorial --mood cinematic --ratio 4:5
-```
+## 七、隐私、版权和能力边界
 
-已有构思也可以用 [示例简报](skills/poster-genome/examples/brief-example.json) 直接检索：
+- 未得到“保存到本地”的明确授权，不永久保存任何参考图。
+- 用户图库与用户照片不进入公共 GitHub 仓库，也不默认上传云端生图服务。
+- 保存到用户本机前会重编码参考图并剥除 EXIF；这不删除画面本身可见的私人信息。
+- 参考图可以用来学习通用设计方法，不应复制第三方作品完整而独特的表达。
+- 两张真实人物照片中的两个人都必须被保留；保真是硬门槛，审美好看不能抵消主体遗漏。
+- 你实际使用的 Agent 如果不支持多图输入、本地文件读取或图像生成，必须明确指出而不能假装做到了。
 
-```bash
-python skills/poster-genome/scripts/match_genomes.py --input skills/poster-genome/examples/brief-example.json --top 3
-```
-
-如果已经有照片和合法字体，只需要一个准确写中文的简单合成步骤，可以单独安装 Pillow 使用 `overlay_text.py`。这只是固定的文字叠加，不是 AI 原创海报生成器。命令见 [示例说明](skills/poster-genome/examples/README.md)。
-
-## 目前能验证什么，不能验证什么？
-
-- **仓库检查：** Python 脚本、基因格式、文档路径和安装打包可以通过自动化流程检查。
-- **还不能证明：** 用户上传的每张图片都能正确理解、每种设计基因都好看、所有客户端都具备生图工具、真实用户的理解率或审美偏好得到提升。
-- **版权与隐私：** 分析参考图不等于可以公开分发参考图。私人照片、商标素材和字体不得在未获授权时提交公开仓库。
-
-关于怎样做可靠的测试，见 [评估方法](docs/EVALUATION.md)。关于为什么这样重写说明文档，见 [中文表达原则](docs/EDITORIAL_POLICY.md)。
-
-## 参与贡献
-
-欢迎提交可复用的原创设计基因、明确的失败案例、对中文海报排版的改进，或某种 AI 客户端实际安装与运行记录。请按 [贡献指南](CONTRIBUTING.md) 提供问题、理由、需要保留的要求、反例和验证方法。
-
-项目代码与原创文档采用 [MIT License](LICENSE)。第三方素材的权利不因本仓库的许可证而自动改变。
+想参与开源，见 [贡献指南](CONTRIBUTING.md)。更多质量与工具限制见 [评估方法](docs/EVALUATION.md)。原创代码与文档采用 [MIT License](LICENSE)。
