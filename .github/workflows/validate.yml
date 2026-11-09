@@ -42,3 +42,6 @@ jobs:
           test -f ".agents/skills/poster-genome/references/analysis-framework.md"
           test -f ".agents/skills/poster-genome/genomes/cinematic-editorial.json"
           test -f ".agents/skills/poster-genome/scripts/match_genomes.py"
+          test -f ".agents/skills/poster-genome/requirements-dev.txt"
+          test -f ".agents/skills/poster-genome/requirements-render.txt"
+          test -f ".agents/skills/poster-genome/LICENSE"
